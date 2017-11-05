@@ -12,6 +12,7 @@
 /Makefile.in
 /build-aux/git-package-version
 /libtool
+/corset.xcodeproj/
 /corset-*.tar.*
 /corset-*.zip
 a.out
