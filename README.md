@@ -52,7 +52,7 @@ Source Code
 
    Preparing Source:
 
-      $ cd securecoreutils
+      $ cd corset
       $ ./autogen.sh
 
    Git Branches:
