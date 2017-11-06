@@ -65,7 +65,7 @@ doc_DATA				= \
 					  AUTHORS.md \
 					  ChangeLog.md \
 					  COPYING.md \
-					  DESIGN-GOALS.md \
+					  doc/DESIGN-GOALS.md \
 					  INSTALL \
 					  README.md \
 					  TODO.md
