@@ -47,7 +47,13 @@ AM_LDFLAGS				=
 AM_CFLAGS				= -O2 $(CFLAGS_WARNINGS)
 AM_CXXFLAGS				= -O2 @AM_CXXFLAGS@
 AM_OBJCFLAGS				= -O2 @AM_OBJCFLAGS@
-AM_CPPFLAGS				= -O2 -UPMARK -DHAVE_CONFIG_H=1 -I$(top_builddir)/include -I$(top_srcdir)/include -DSYSCONFDIR="\"$(sysconfdir)\""
+AM_CPPFLAGS				= -O2 \
+					  -U__CORSET_PMARK \
+					  -DHAVE_CONFIG_H=1 \
+					  -I$(top_builddir)/include \
+					  -I$(top_srcdir)/include \
+					  -I$(top_srcdir)/src/common \
+					  -DSYSCONFDIR="\"$(sysconfdir)\""
 ACLOCAL_AMFLAGS				= -I m4 -W all -W error
 AM_MAKEINFOFLAGS                        = --no-split
 DEFS					=
@@ -68,12 +74,15 @@ lib_LTLIBRARIES				=
 man_MANS				=
 info_TEXINFOS				=
 noinst_LTLIBRARIES			=
-noinst_HEADERS				=
+noinst_LIBRARIES			= lib/libcorset.a
+noinst_HEADERS				= include/corset_common.h
 noinst_PROGRAMS				=
 bin_PROGRAMS				=
 bin_SCRIPTS				=
 pkgdata_DATA				=
 sbin_SCRIPTS				=
+sbin_PROGRAMS				= src/corset \
+					  src/corsetd
 
 
 # lists
@@ -82,7 +91,10 @@ BUILT_SOURCES				=
 TESTS					=
 XFAIL_TESTS				=
 EXTRA_MANS				=
-EXTRA_DIST				= $(doc_DATA)
+EXTRA_DIST				= \
+					  $(doc_DATA) \
+					  include/corset_common.h \
+					  lib/libcorset/libcorset.sym
 CLEANFILES				= \
 					  $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
@@ -95,6 +107,36 @@ CLEANFILES				= \
 					  @PACKAGE_TARNAME@-*.txz \
 					  @PACKAGE_TARNAME@-*.zip
 DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings
+
+
+# macros for lib/librgutil.a
+lib_libcorset_a_DEPENDENCIES		= \
+					  Makefile \
+					  config.h \
+					  lib/libcorset/libcorset.sym
+lib_libcorset_a_SOURCES			= \
+					  include/corset_common.h \
+					  lib/libcorset/libcorset.h \
+					  lib/libcorset/version.c \
+					  lib/libcorset/version.h
+
+
+# macros for src/corset
+src_corset_DEPENDENCIES			= Makefile $(LDADD) lib/libcorset.a
+src_corset_LDADD			= lib/libcorset.a
+src_corset_SOURCES			= $(include_HEADERS) \
+					  $(noinst_HEADERS) \
+					  src/client/corset.c \
+					  src/client/corset.h
+
+
+# macros for src/corsetd
+src_corsetd_DEPENDENCIES		= Makefile $(LDADD) lib/libcorset.a
+src_corsetd_LDADD			= lib/libcorset.a
+src_corsetd_SOURCES			= $(include_HEADERS) \
+					  $(noinst_HEADERS) \
+					  src/daemon/corsetd.c \
+					  src/daemon/corsetd.h
 
 
 # Makefile includes

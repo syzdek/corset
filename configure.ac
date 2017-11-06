@@ -39,7 +39,7 @@ AC_PREREQ([2.65])
 
 AC_COPYRIGHT([Copyright (C) 2017 David M. Syzdek <david@syzdek.net>.])
 AC_REVISION(0.1)
-AC_INIT([Corset Firewall],[0.0],[syzdek@bindlebinaries.com],[corset])
+AC_INIT([Corset Firewall],[0.0],[syzdek@bindlebinaries.com],[corset],[https://github.com/syzdek/corset/])
 
 
 AC_SUBST([RELEASE_MONTH],["July 2017"])
