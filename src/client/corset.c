@@ -44,6 +44,9 @@
 
 #include "corset.h"
 
+#include <stdio.h>
+#include <getopt.h>
+
 
 ///////////////////
 //               //
@@ -64,7 +67,8 @@
 #pragma mark - Prototypes
 #endif
 
-int main(void);
+void corset_usage(corsetfw * cfw);
+int main(int argc, char * argv[]);
 
 
 /////////////////
@@ -86,11 +90,69 @@ int main(void);
 #pragma mark - Functions
 #endif
 
-int main(void)
+void corset_usage(corsetfw * cfw)
 {
-   cfw_version(PROGRAM_NAME);
+   int  x;
+
+   printf("Usage: %s [OPTIONS] command [COMMANDOPTS]\n", cfw->prog_name);
+   printf("\n");
+
+   cfw_usage_options(CFW_COMMON_GETOPT);
+   printf("\n");
+
+   return;
+}
+
+
+int main(int argc, char * argv[])
+{
+   int              rc;
+   int              c;
+   int              opt_index;
+   corsetfw       * cfw;
+
+   static char   short_opt[] = "+" CFW_COMMON_GETOPT;
+
+   if ((rc = cfw_initialize(&cfw, argv[0])) == -1)
+   {
+      perror("cfw_initialize()");
+      return(1);
+   };
+
+   while((c = cfw_getopt(cfw, argc, argv, short_opt, &opt_index)) != -1)
+   {
+      switch(c)
+      {
+         case -1:   /* no more arguments */
+         case 0:    /* long options toggles */
+         break;
+
+         case 'h':
+         corset_usage(cfw);
+         return(0);
+
+         case 'V':
+         cfw_version(cfw);
+         return(0);
+
+         case 1:
+         cfw_destroy(&cfw);
+         return(1);
+
+         case '?':
+         fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+         return(1);
+
+         default:
+         fprintf(stderr, "%s: unrecognized option `--%c'\n", PROGRAM_NAME, c);
+         fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+         return(1);
+      };
+   };
+
+   cfw_destroy(&cfw);
+
    return(0);
 }
 
 /* end of source */
-

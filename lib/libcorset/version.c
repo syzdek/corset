@@ -45,6 +45,7 @@
 #include "version.h"
 
 #include <stdio.h>
+#include <assert.h>
 
 
 ///////////////////
@@ -86,12 +87,52 @@
 #pragma mark - Functions
 #endif
 
-void cfw_version(const char * prog_name)
+void cfw_usage_options(const char * short_opt)
 {
-   prog_name = ((prog_name)) ? prog_name : "";
+   int i;
+
+   short_opt = ((short_opt)) ? short_opt : "hqVv";
+
+   printf("OPTIONS:\n");
+   for (i = 0; ((short_opt[i])); i++)
+   {
+      switch (short_opt[i])
+      {
+         case 'd':
+         printf("  -d level                  debug level\n");
+         break;
+
+         case 'h':
+         printf("  -h, --help                print this help and exit\n");
+         break;
+
+         case 'q':
+         printf("  -q, --quiet, --silent     do not print messages\n");
+         break;
+
+         case 'V':
+         printf("  -V, --version             print version number and exit\n");
+         break;
+
+         case 'v':
+         printf("  -v, --verbose             print verbose messages\n");
+         break;
+
+         default:
+         break;
+      };
+   };
+
+   return;
+}
+
+void cfw_version(const corsetfw * cfw)
+{
+   assert(cfw != NULL);
+   assert(cfw->prog_name != NULL);
    printf(( "%s (%s) %s\n"
             "%s\n"),
-            prog_name, PACKAGE_NAME, PACKAGE_VERSION,
+            cfw->prog_name, PACKAGE_NAME, PACKAGE_VERSION,
             PACKAGE_URL
    );
    return;

@@ -117,6 +117,8 @@ lib_libcorset_a_DEPENDENCIES		= \
 lib_libcorset_a_SOURCES			= \
 					  include/corset_common.h \
 					  lib/libcorset/libcorset.h \
+					  lib/libcorset/conf.c \
+					  lib/libcorset/conf.h \
 					  lib/libcorset/version.c \
 					  lib/libcorset/version.h
 

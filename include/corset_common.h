@@ -64,6 +64,7 @@
 #endif
 
 #include <limits.h>
+#include <inttypes.h>
 
 
 ///////////////////
@@ -102,6 +103,9 @@
 #define CFW_BUFF_MAX (CFW_LINE_MAX*20)
 
 
+#define CFW_COMMON_GETOPT "d:hqVv"
+
+
 //////////////////
 //              //
 //  Data Types  //
@@ -110,6 +114,17 @@
 #ifdef __CORSET_PMARK
 #pragma mark - Data Types
 #endif
+
+struct corset_firewall
+{
+   uint64_t      debug;
+   uint8_t       verbose;
+   uint8_t       silent;
+   uint8_t       padding_8a;
+   uint8_t       padding_8b;
+   char        * prog_name;
+};
+typedef struct corset_firewall corsetfw;
 
 
 //////////////////
@@ -121,6 +136,12 @@
 #pragma mark - Prototypes
 #endif
 
-void cfw_version(const char * prog_name);
+int cfw_destroy(corsetfw ** cfwp);
+int cfw_getopt(corsetfw * cfw, int argc, char * const * argv,
+      const char * optstring, int *longindex);
+int cfw_initialize(corsetfw ** cfwp, const char * prog_name);
+
+void cfw_usage_options(const char * short_opt);
+void cfw_version(const corsetfw * cfw);
 
 #endif /* end of header */

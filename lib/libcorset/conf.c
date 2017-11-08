@@ -42,9 +42,12 @@
 #pragma mark - Headers
 #endif
 
-#include "corsetd.h"
+#include "conf.h"
 
 #include <stdio.h>
+#include <assert.h>
+#include <stdlib.h>
+#include <strings.h>
 
 
 ///////////////////
@@ -66,9 +69,6 @@
 #pragma mark - Prototypes
 #endif
 
-void corsetd_usage(corsetfw * cfw);
-int main(int argc, char * argv[]);
-
 
 /////////////////
 //             //
@@ -88,65 +88,108 @@ int main(int argc, char * argv[]);
 #ifdef __CORSET_PMARK
 #pragma mark - Functions
 #endif
-void corsetd_usage(corsetfw * cfw)
+
+int cfw_destroy(corsetfw ** cfwp)
 {
-   printf("Usage: %s [OPTIONS]\n", cfw->prog_name);
-   printf("\n");
+   assert(cfwp != NULL);
 
-   cfw_usage_options(CFW_COMMON_GETOPT);
-   printf("\n");
+   // exit if there is nothing to do
+   if (!(*cfwp))
+      return(0);
 
-   return;
+   // free strings
+   if ((*cfwp)->prog_name != NULL)     free((*cfwp)->prog_name);
+
+   // zero and free configuration struct
+   bzero(*cfwp, sizeof(struct corset_firewall));
+   free(*cfwp);
+   *cfwp = NULL;
+
+   return(0);
+}
+
+int cfw_getopt(corsetfw * cfw, int argc, char * const * argv,
+      const char * optstring, int *longindex)
+{
+   int c;
+
+   static struct option long_opt[] =
+   {
+      {"help",             no_argument,       NULL, 'h' },
+      {"quiet",            no_argument,       NULL, 'q' },
+      {"silent",           no_argument,       NULL, 'q' },
+      {"version",          no_argument,       NULL, 'V' },
+      {"verbose",          no_argument,       NULL, 'v' },
+      { NULL, 0, NULL, 0 }
+   };
+
+   assert(cfw != NULL);
+
+   switch(c = getopt_long(argc, argv, optstring, long_opt, longindex))
+   {
+      // -d level, debug level
+      case 'd':
+      cfw->debug = (uint64_t) strtoumax(optarg, NULL, 0);
+      return(0);
+
+
+      // -q, --quiet, --silent, do not print messages
+      case 'q':
+      cfw->silent = 1;
+      if ((cfw->verbose))
+      {
+         fprintf(stderr, "%s: incompatible options: `-q' and `-v'\n", cfw->prog_name);
+         fprintf(stderr, "Try `%s --help' for more information.\n", cfw->prog_name);
+         return(1);
+      };
+      return(0);
+
+
+      // -v, --verbose, print verbose messages
+      case 'v':
+      cfw->verbose++;
+      if ((cfw->silent))
+      {
+         fprintf(stderr, "%s: incompatible options: `-q' and `-v'\n", cfw->prog_name);
+         fprintf(stderr, "Try `%s --help' for more information.\n", cfw->prog_name);
+         return(1);
+      };
+      return(0);
+
+
+      default:
+      break;
+   };
+
+   return(c);
 }
 
 
-int main(int argc, char * argv[])
+int cfw_initialize(corsetfw ** cfwp, const char * prog_name)
 {
-   int              rc;
-   int              c;
-   int              opt_index;
-   corsetfw       * cfw;
+   const char * ptr;
 
-   static char   short_opt[] = "+" CFW_COMMON_GETOPT;
+   assert(cfwp       != NULL);
+   assert(prog_name  != NULL);
 
-   if ((rc = cfw_initialize(&cfw, argv[0])) == -1)
+   // allocation configuration struct
+   if ((*cfwp = malloc(sizeof(corsetfw))) == NULL)
+      return(-1);
+   bzero(*cfwp, sizeof(sizeof(struct corset_firewall)));
+
+   // save program name (used for help messages, logging, etc)
+   if ((ptr = rindex(prog_name, '/')) != NULL)
+      prog_name = &ptr[1];
+   if (prog_name[0] == '\0')
    {
-      perror("cfw_initialize()");
-      return(1);
+      cfw_destroy(cfwp);
+      return(-1);
    };
-
-   while((c = cfw_getopt(cfw, argc, argv, short_opt, &opt_index)) != -1)
+   if (((*cfwp)->prog_name = strdup(prog_name)) == NULL)
    {
-      switch(c)
-      {
-         case -1:   /* no more arguments */
-         case 0:    /* long options toggles */
-         break;
-
-         case 'h':
-         corsetd_usage(cfw);
-         return(0);
-
-         case 'V':
-         cfw_version(cfw);
-         return(0);
-
-         case 1:
-         cfw_destroy(&cfw);
-         return(1);
-
-         case '?':
-         fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
-         return(1);
-
-         default:
-         fprintf(stderr, "%s: unrecognized option `--%c'\n", PROGRAM_NAME, c);
-         fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
-         return(1);
-      };
+      cfw_destroy(cfwp);
+      return(-1);
    };
-
-   cfw_destroy(&cfw);
 
    return(0);
 }
