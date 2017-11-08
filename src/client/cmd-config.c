@@ -32,13 +32,6 @@
  *
  *  @SYZDEK_BSD_LICENSE_END@
  */
-/**
- *  @file securecoreutils.c
- *  Secure Core Utils widget wrapper
- */
-#ifndef __SRC_CORSET_CORSET_H
-#define __SRC_CORSET_CORSET_H 1
-
 
 ///////////////
 //           //
@@ -49,13 +42,10 @@
 #pragma mark - Headers
 #endif
 
-#ifdef HAVE_CONFIG_H
-#   include "config.h"
-#else
-#   include "git-package-version.h"
-#endif
+#include "cmd-config.h"
 
-#include <corset_common.h>
+#include <stdio.h>
+#include <assert.h>
 
 
 ///////////////////
@@ -67,29 +57,6 @@
 #pragma mark - Definitions
 #endif
 
-#ifndef PROGRAM_NAME
-#define PROGRAM_NAME "corset"
-#endif
-
-
-//////////////////
-//              //
-//  Data Types  //
-//              //
-//////////////////
-#ifdef __CORSET_PMARK
-#pragma mark - Data Types
-#endif
-
-struct cfwc_command
-{
-   const char         * name;
-   const char         * desc;
-   const char * const * alias;
-   int  (*func)(corsetfw * cfw, int argc, char ** argv);
-};
-typedef struct cfwc_command cfwc_command;
-
 
 //////////////////
 //              //
@@ -100,5 +67,83 @@ typedef struct cfwc_command cfwc_command;
 #pragma mark - Prototypes
 #endif
 
+void cfwc_cmd_config_usage(corsetfw * cfw);
 
-#endif /* end of header */
+
+/////////////////
+//             //
+//  Variables  //
+//             //
+/////////////////
+#ifdef __CORSET_PMARK
+#pragma mark - Variables
+#endif
+
+
+/////////////////
+//             //
+//  Functions  //
+//             //
+/////////////////
+#ifdef __CORSET_PMARK
+#pragma mark - Functions
+#endif
+
+int cfwc_cmd_config(corsetfw * cfw, int argc, char ** argv)
+{
+   int                  c;
+   int                  opt_index;
+
+   static char   short_opt[] = "+" CFW_COMMON_GETOPT;
+
+   assert(cfw != NULL);
+
+   while((c = cfw_getopt(cfw, argc, argv, short_opt, &opt_index)) != -1)
+   {
+      switch(c)
+      {
+         case -1:   /* no more arguments */
+         case 0:    /* long options toggles */
+         break;
+
+         case 'h':
+         cfwc_cmd_config_usage(cfw);
+         return(0);
+
+         case 'V':
+         cfw_version(cfw);
+         return(0);
+
+         case 1:
+         return(1);
+
+         case '?':
+         fprintf(stderr, "Try `%s --help' for more information.\n", cfw->prog_name);
+         return(1);
+
+         default:
+         fprintf(stderr, "%s: unrecognized option `--%c'\n", cfw->prog_name, c);
+         fprintf(stderr, "Try `%s --help' for more information.\n", cfw->prog_name);
+         return(1);
+      };
+   };
+
+   printf("debug:    %" PRIu64 "\n", cfw->debug);
+   printf("verbose:  %" PRIu8 "\n", cfw->verbose);
+   printf("silent:   %" PRIu8 "\n", cfw->silent);
+
+   return(0);
+}
+
+
+void cfwc_cmd_config_usage(corsetfw * cfw)
+{
+   printf("Usage: %s config [OPTIONS]\n", cfw->prog_name);
+   printf("\n");
+
+   cfw_usage_options(CFW_COMMON_GETOPT);
+   printf("\n");
+}
+
+
+/* end of source */

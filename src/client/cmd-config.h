@@ -36,8 +36,8 @@
  *  @file securecoreutils.c
  *  Secure Core Utils widget wrapper
  */
-#ifndef __SRC_CORSET_CORSET_H
-#define __SRC_CORSET_CORSET_H 1
+#ifndef __SRC_CORSET_CMD_CONFIG_H
+#define __SRC_CORSET_CMD_CONFIG_H 1
 
 
 ///////////////
@@ -49,13 +49,7 @@
 #pragma mark - Headers
 #endif
 
-#ifdef HAVE_CONFIG_H
-#   include "config.h"
-#else
-#   include "git-package-version.h"
-#endif
-
-#include <corset_common.h>
+#include "corset.h"
 
 
 ///////////////////
@@ -65,10 +59,6 @@
 ///////////////////
 #ifdef __CORSET_PMARK
 #pragma mark - Definitions
-#endif
-
-#ifndef PROGRAM_NAME
-#define PROGRAM_NAME "corset"
 #endif
 
 
@@ -81,15 +71,6 @@
 #pragma mark - Data Types
 #endif
 
-struct cfwc_command
-{
-   const char         * name;
-   const char         * desc;
-   const char * const * alias;
-   int  (*func)(corsetfw * cfw, int argc, char ** argv);
-};
-typedef struct cfwc_command cfwc_command;
-
 
 //////////////////
 //              //
@@ -99,6 +80,8 @@ typedef struct cfwc_command cfwc_command;
 #ifdef __CORSET_PMARK
 #pragma mark - Prototypes
 #endif
+
+int cfwc_cmd_config(corsetfw * cfw, int argc, char ** argv);
 
 
 #endif /* end of header */

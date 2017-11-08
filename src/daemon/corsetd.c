@@ -125,23 +125,28 @@ int main(int argc, char * argv[])
 
          case 'h':
          corsetd_usage(cfw);
+         cfw_destroy(&cfw);
          return(0);
 
          case 'V':
          cfw_version(cfw);
+         cfw_destroy(&cfw);
          return(0);
 
          case 1:
          cfw_destroy(&cfw);
+         cfw_destroy(&cfw);
          return(1);
 
          case '?':
-         fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+         fprintf(stderr, "Try `%s --help' for more information.\n", cfw->prog_name);
+         cfw_destroy(&cfw);
          return(1);
 
          default:
-         fprintf(stderr, "%s: unrecognized option `--%c'\n", PROGRAM_NAME, c);
-         fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+         fprintf(stderr, "%s: unrecognized option `--%c'\n", cfw->prog_name, c);
+         fprintf(stderr, "Try `%s --help' for more information.\n", cfw->prog_name);
+         cfw_destroy(&cfw);
          return(1);
       };
    };

@@ -129,7 +129,9 @@ src_corset_LDADD			= lib/libcorset.a
 src_corset_SOURCES			= $(include_HEADERS) \
 					  $(noinst_HEADERS) \
 					  src/client/corset.c \
-					  src/client/corset.h
+					  src/client/corset.h \
+					  src/client/cmd-config.c \
+					  src/client/cmd-config.h
 
 
 # macros for src/corsetd

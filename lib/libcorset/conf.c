@@ -147,7 +147,8 @@ int cfw_getopt(corsetfw * cfw, int argc, char * const * argv,
 
       // -v, --verbose, print verbose messages
       case 'v':
-      cfw->verbose++;
+      if (cfw->verbose < 254)
+         cfw->verbose++;
       if ((cfw->silent))
       {
          fprintf(stderr, "%s: incompatible options: `-q' and `-v'\n", cfw->prog_name);
