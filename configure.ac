@@ -132,6 +132,7 @@ AC_CHECK_FUNCS([strcasecmp],     [], [AC_MSG_ERROR([missing required functions])
 AC_CHECK_FUNCS([strdup],         [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strerror],       [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strtoul],        [], [AC_MSG_ERROR([missing required functions])])
+AC_CHECK_FUNCS([strtoumax],      [], [AC_MSG_ERROR([missing required functions])])
 
 # check for headers
 AC_CHECK_HEADERS([assert.h],    [], [AC_MSG_ERROR([missing required headers])])
