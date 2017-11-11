@@ -139,6 +139,7 @@ AC_CHECK_HEADERS([ctype.h],     [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([errno.h],     [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([fcntl.h],     [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([features.h],  [], [])
+AC_CHECK_HEADERS([getopt.h],    [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([inttypes.h],  [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([limits.h],    [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([stdarg.h],    [], [AC_MSG_ERROR([missing required headers])])
@@ -169,10 +170,6 @@ AC_BINDLE_GIT_PACKAGE_VERSION([contrib/bindletools/build-aux/git-package-version
 # custom configure options
 AC_BINDLE_ENABLE_WARNINGS
 AC_CFW_YAJL
-
-
-# enables getopt_long if header and functions were found
-AC_CHECK_HEADERS([getopt.h], [AC_DEFINE_UNQUOTED(USE_GETOPT_LONG, 1, [Use GNU getopt_long])])
 
 
 # Creates outputs
