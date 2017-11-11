@@ -168,6 +168,7 @@ AC_BINDLE_GIT_PACKAGE_VERSION([contrib/bindletools/build-aux/git-package-version
 
 # custom configure options
 AC_BINDLE_ENABLE_WARNINGS
+AC_CFW_YAJL
 
 
 # enables getopt_long if header and functions were found
