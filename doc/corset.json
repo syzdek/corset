@@ -40,7 +40,7 @@
       "foreground": false,
       "pidfile":    "/var/run/corset.pid",
       "control":    "/var/run/corset.sock"
-   }
+   },
    "modules": {
       "core": {
          "module":     "core",
@@ -52,7 +52,7 @@
          "facility":   "daemon",
          "log_upto":   "notice"
       },
-      "nfacct" {
+      "nfacct": {
          "module":     "nfacct",
          "enable":     [ "acctsrc" ],
          "default_interface": "eth0.1996"
