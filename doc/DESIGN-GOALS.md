@@ -27,3 +27,15 @@ User Space Integration:
        [ ] Postgres
        [ ] SQLite
 
+
+Module Types
+----------------
+
+ * Trigger (trigger) [core, netfilter_queue]
+ * Authentication (authen) [radius]
+ * Authorization (author) [radius]
+ * session DB (db) [file]
+ * provision (prov) [sql, script, netfilter, ipset, iproute2, netfilter_acct]
+ * accounting poll (acct-poll) [netfilter_acct]
+ * accounting push (acct-record) [radius]
+
