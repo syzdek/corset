@@ -66,7 +66,7 @@ doc_DATA				= \
 					  ChangeLog.md \
 					  COPYING.md \
 					  doc/DESIGN-GOALS.md \
-					  INSTALL \
+					  INSTALL.md \
 					  README.md \
 					  TODO.md
 include_HEADERS				=
