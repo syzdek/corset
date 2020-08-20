@@ -134,6 +134,24 @@ void my_signal(int sig)
    switch(sig)
    {
       case SIGUSR1:
+      if (verdict_current != NF_ACCEPT)
+      {
+         verdict_string  = "ACCEPT";
+         verdict_current = NF_ACCEPT;
+         printf("%s changing policy to \"%s\"\n", prog_name, verdict_string);
+      };
+      break;
+
+      case SIGUSR2:
+      if (verdict_current != NF_DROP)
+      {
+         verdict_string  = "DROP";
+         verdict_current = NF_DROP;
+         printf("%s changing policy to \"%s\"\n", prog_name, verdict_string);
+      };
+      break;
+
+      case SIGHUP:
       verdict_string  = (verdict_current == NF_ACCEPT) ? "DROP"  : "ACCEPT";
       verdict_current = (verdict_current == NF_ACCEPT) ? NF_DROP : NF_ACCEPT;
       printf("%s changing policy to \"%s\"\n", prog_name, verdict_string);
@@ -142,7 +160,6 @@ void my_signal(int sig)
       case SIGINT:
       case SIGQUIT:
       case SIGTERM:
-      case SIGHUP:
       printf("%s exiting\n", prog_name);
       should_exit = 1;
       break;
@@ -255,8 +272,10 @@ int main(int argc, char * argv[])
 
 
    // print helpful information to end user
-   printf("Switch behavior with:\n");
-   printf("    kill -USR1 %i\n", getpid());
+   printf("Update policy  with:\n");
+   printf("    kill -USR1 %i   # set policy to ACCEPT\n", getpid());
+   printf("    kill -USR2 %i   # set policy to DROP\n", getpid());
+   printf("    kill -HUP  %i   # toggle policy between ACCEPT and  DROP\n", getpid());
    printf("\n");
    printf("firewall setup examples:\n");
    printf("    ip6tables -A INPUT -p tcp  --dport %-5i -j NFQUEUE --queue-num %i\n", queue_num, queue_num);
@@ -275,7 +294,7 @@ int main(int argc, char * argv[])
    signal(SIGPIPE,   SIG_IGN);
    signal(SIGALRM,   SIG_IGN);
    signal(SIGUSR1,   my_signal);
-   signal(SIGUSR2,   SIG_IGN);
+   signal(SIGUSR2,   my_signal);
 
 
    // initialize queue handle
