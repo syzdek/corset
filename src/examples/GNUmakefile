@@ -1,6 +1,8 @@
 
 
-PROGS			= example-nfqueue
+PROGS			= \
+			  example-ipset \
+			  example-nfqueue
 
 CFLAGS			= -Wall -Werror
 LDFLAGS			= 
@@ -11,6 +13,10 @@ CC			= gcc
 
 
 all: $(PROGS)
+
+
+example-ipset: example-ipset.o
+	$(CC) $(LDFLAGS) -lmnl -lipset -o $(@) $(^)
 
 
 example-nfqueue: example-nfqueue.o
