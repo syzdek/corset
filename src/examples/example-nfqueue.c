@@ -175,25 +175,41 @@ int my_callback(struct nfq_q_handle * qh, struct nfgenmsg * nfmsg, struct nfq_da
 {
    int                             id;
    struct nfqnl_msg_packet_hdr   * ph;
+   uint16_t                        hwpos;
    int                             payload_len;
    unsigned char                 * payload;
    struct iphdr                  * ip4;
    struct ipv6hdr                * ip6;
    char                            addr_src[INET6_ADDRSTRLEN];
    char                            addr_dst[INET6_ADDRSTRLEN];
+   char                            addr_hw[INET6_ADDRSTRLEN];
+   struct nfqnl_msg_packet_hw    * packet_hw;
 
    assert(data != NULL);
 
+
+   // obtain packet information
    if ((ph = nfq_get_msg_packet_hdr(nfad)) == NULL)
       return(0);
    id = ntohl(ph->packet_id);
-
-
-   // obtain packet information
    if ((payload_len = nfq_get_payload(nfad, &payload)) == -1)
+      return(nfq_set_verdict(qh, id, NF_DROP, 0, NULL));
+   if ((packet_hw = nfq_get_packet_hw(nfad)) == NULL)
+      return(nfq_set_verdict(qh, id, NF_DROP, 0, NULL));
+
+
+   // process hardware address
+   for(hwpos = 0; (hwpos < ntohs(packet_hw->hw_addrlen)); hwpos++)
    {
-      return(nfq_set_verdict(qh, id, NF_ACCEPT, 0, NULL));
+      snprintf( &addr_hw[hwpos*3],
+               sizeof(addr_hw)-(hwpos*3),
+               "%02x-",
+               packet_hw->hw_addr[hwpos] );
    };
+   addr_hw[((hwpos)) ? (hwpos*3)-1 : 0] = '\0';
+
+
+   // process IP addresses
    ip4 = ((struct iphdr *)   payload);
    ip6 = ((struct ipv6hdr *) payload);
    switch(ip4->version)
@@ -216,11 +232,11 @@ int my_callback(struct nfq_q_handle * qh, struct nfgenmsg * nfmsg, struct nfq_da
    // print packet information
    switch((ip4->version == 4) ? ip4->protocol : ip6->nexthdr)
    {
-      case 1:  printf("%s (%i) %s ICMP src=%s dst=%s\n",      prog_name, id, verdict_string, addr_src, addr_dst); break;
-      case 6:  printf("%s (%i) %s TCP src=%s dst=%s\n",       prog_name, id, verdict_string, addr_src, addr_dst); break;
-      case 17: printf("%s (%i) %s UDP src=%s dst=%s\n",       prog_name, id, verdict_string, addr_src, addr_dst); break;
-      case 58: printf("%s (%i) %s IPv6-ICMP src=%s dst=%s\n", prog_name, id, verdict_string, addr_src, addr_dst); break;
-      default: printf("%s (%i) %s UNKNOWN src=%s dst=%s\n",   prog_name, id, verdict_string, addr_src, addr_dst); break;
+      case 1:  printf("%s (%i) %s ICMP hw=%s src=%s dst=%s\n",      prog_name, id, verdict_string, addr_hw, addr_src, addr_dst); break;
+      case 6:  printf("%s (%i) %s TCP hw=%s src=%s dst=%s\n",       prog_name, id, verdict_string, addr_hw, addr_src, addr_dst); break;
+      case 17: printf("%s (%i) %s UDP hw=%s src=%s dst=%s\n",       prog_name, id, verdict_string, addr_hw, addr_src, addr_dst); break;
+      case 58: printf("%s (%i) %s IPv6-ICMP hw=%s src=%s dst=%s\n", prog_name, id, verdict_string, addr_hw, addr_src, addr_dst); break;
+      default: printf("%s (%i) %s UNKNOWN hw=%s src=%s dst=%s\n",   prog_name, id, verdict_string, addr_hw, addr_src, addr_dst); break;
    };
    fflush(stdout);
 
