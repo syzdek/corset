@@ -183,6 +183,10 @@ int my_callback(struct nfq_q_handle * qh, struct nfgenmsg * nfmsg, struct nfq_da
    char                            addr_src[INET6_ADDRSTRLEN];
    char                            addr_dst[INET6_ADDRSTRLEN];
    char                            addr_hw[INET6_ADDRSTRLEN];
+   uint16_t                        port_src;
+   uint16_t                        port_dst;
+   size_t                          offset;
+   const char                    * proto;
    struct nfqnl_msg_packet_hw    * packet_hw;
 
    assert(data != NULL);
@@ -209,19 +213,33 @@ int my_callback(struct nfq_q_handle * qh, struct nfgenmsg * nfmsg, struct nfq_da
    addr_hw[((hwpos)) ? (hwpos*3)-1 : 0] = '\0';
 
 
-   // process IP addresses
-   ip4 = ((struct iphdr *)   payload);
-   ip6 = ((struct ipv6hdr *) payload);
+   // process IP addresses and port
+   ip4       = ((struct iphdr *)   payload);
+   ip6       = ((struct ipv6hdr *) payload);
+   port_src  = 0;
+   port_dst  = 0;
    switch(ip4->version)
    {
       case 4:
       inet_ntop(AF_INET, &ip4->saddr, addr_src, sizeof(addr_src));
       inet_ntop(AF_INET, &ip4->daddr, addr_dst, sizeof(addr_dst));
+      if ((ip4->protocol == 6) || (ip4->protocol == 17))
+      {
+         offset = ip4->ihl * 4;
+         port_src = ntohs( *((short *)&payload[offset+0]) );
+         port_dst = ntohs( *((short *)&payload[offset+2]) );
+      };
       break;
 
       case 6:
       inet_ntop(AF_INET6, &ip6->saddr, addr_src, sizeof(addr_src));
       inet_ntop(AF_INET6, &ip6->daddr, addr_dst, sizeof(addr_dst));
+      if ((ip6->nexthdr == 6) || (ip6->nexthdr == 17))
+      {
+         offset = 40;
+         port_src = ntohs( *((short *)&payload[offset+0]) );
+         port_dst = ntohs( *((short *)&payload[offset+2]) );
+      };
       break;
 
       default:
@@ -229,15 +247,33 @@ int my_callback(struct nfq_q_handle * qh, struct nfgenmsg * nfmsg, struct nfq_da
    };
 
 
-   // print packet information
+   // determine protocol name (not full list)
    switch((ip4->version == 4) ? ip4->protocol : ip6->nexthdr)
    {
-      case 1:  printf("%s (%i) %s ICMP hw=%s src=%s dst=%s\n",      prog_name, id, verdict_string, addr_hw, addr_src, addr_dst); break;
-      case 6:  printf("%s (%i) %s TCP hw=%s src=%s dst=%s\n",       prog_name, id, verdict_string, addr_hw, addr_src, addr_dst); break;
-      case 17: printf("%s (%i) %s UDP hw=%s src=%s dst=%s\n",       prog_name, id, verdict_string, addr_hw, addr_src, addr_dst); break;
-      case 58: printf("%s (%i) %s IPv6-ICMP hw=%s src=%s dst=%s\n", prog_name, id, verdict_string, addr_hw, addr_src, addr_dst); break;
-      default: printf("%s (%i) %s UNKNOWN hw=%s src=%s dst=%s\n",   prog_name, id, verdict_string, addr_hw, addr_src, addr_dst); break;
+      case 1:  proto = "ICMP";       break;
+      case 6:  proto = "TCP";        break;
+      case 17: proto = "UDP";        break;
+      case 58: proto = "IPv6-ICMP";  break;
+      default: proto = "OTHER";      break;
    };
+
+
+   // print packet information
+   if ( ((port_src)) || ((port_dst)) )
+      printf( "%s (%i) %s hw=%s src=%s dst=%s proto=%s spt=%hu dpt=%hu\n",
+              prog_name, id,
+              verdict_string,
+              addr_hw,
+              addr_src, addr_dst,
+              proto,
+              port_src, port_dst );
+   else
+      printf( "%s (%i) %s hw=%s src=%s dst=%s proto=%s\n",
+              prog_name, id,
+              verdict_string,
+              addr_hw,
+              addr_src, addr_dst,
+              proto );
    fflush(stdout);
 
 
