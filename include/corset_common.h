@@ -118,6 +118,7 @@ struct corset_firewall
    uint8_t       silent;
    uint8_t       padding_8a;
    uint8_t       padding_8b;
+   uint32_t      padding_32a;
    char        * prog_name;
 };
 typedef struct corset_firewall corsetfw;
