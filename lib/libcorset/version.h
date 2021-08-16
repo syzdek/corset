@@ -3,8 +3,6 @@
  *  Copyright (C) 2017 David M. Syzdek <david@syzdek.net>.
  *  All rights reserved.
  *
- *  @SYZDEK_BSD_LICENSE_START@
- *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are
  *  met:
@@ -29,8 +27,6 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  *  SUCH DAMAGE.
- *
- *  @SYZDEK_BSD_LICENSE_END@
  */
 #ifndef __LIB_VERSION_H
 #define __LIB_VERSION_H 1
