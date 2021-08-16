@@ -142,6 +142,8 @@ const cfwc_command cfwc_command_map[] =
 
 int cfwc_cmd_version(corsetfw * cfw, int argc, char ** argv)
 {
+   assert(argc > -1);
+   assert(argv != NULL);
    cfw_version(cfw);
    return(0);
 }
@@ -149,6 +151,8 @@ int cfwc_cmd_version(corsetfw * cfw, int argc, char ** argv)
 
 int cfwc_cmd_help(corsetfw * cfw, int argc, char ** argv)
 {
+   assert(argc > -1);
+   assert(argv != NULL);
    corset_usage(cfw);
    return(0);
 }
@@ -181,18 +185,21 @@ const cfwc_command * corset_cmd_lookup(const char * cmd_name, int exact)
       // compares widget name
       if (strcmp(cmd->name, cmd_name) == 0)
          return(cmd);
-      for(z = 0; ( (cmd->name[z] != '\0') &&
-                   (cmd_name[z] != '\0') &&
-                   (cmd->name[z] == cmd_name[z]) ); z++)
+      if (!(exact))
       {
-         if (z > prefix_uniq)
+         for(z = 0; ( (cmd->name[z] != '\0') &&
+                      (cmd_name[z]  != '\0') &&
+                      (cmd->name[z] == cmd_name[z]) ); z++)
          {
-            matched_cmd = cmd;
-            prefix_uniq    = z;
-         }
-         else if (z == prefix_uniq)
-         {
-            prefix_common = z;
+            if (z > prefix_uniq)
+            {
+               matched_cmd = cmd;
+               prefix_uniq    = z;
+            }
+            else if (z == prefix_uniq)
+            {
+               prefix_common = z;
+            };
          };
       };
 
@@ -204,13 +211,13 @@ const cfwc_command * corset_cmd_lookup(const char * cmd_name, int exact)
          if (strcmp(cmd->alias[y], cmd_name) == 0)
             return(cmd);
          for(z = 0; ( (cmd->alias[y][z] != '\0') &&
-                      (cmd_name[z] != '\0') &&
+                      (cmd_name[z]      != '\0') &&
                       (cmd->alias[y][z] == cmd_name[z]) ); z++)
          {
             if (z > prefix_uniq)
             {
                matched_cmd = cmd;
-               prefix_uniq    = z;
+               prefix_uniq = z;
             }
             else if (z == prefix_uniq)
             {
