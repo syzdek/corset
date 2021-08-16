@@ -165,8 +165,7 @@ AC_BINDLE_GIT_PACKAGE_VERSION([contrib/bindletools/build-aux/git-package-version
 
 
 # custom configure options
-AC_BINDLE_ENABLE_WARNINGS([-Wunused-parameter -Wno-pointer-arith], [])
-AC_CFW_YAJL
+AC_BINDLE_ENABLE_WARNINGS([-Wno-pointer-arith], [])
 
 
 # Creates outputs
