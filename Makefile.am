@@ -70,8 +70,10 @@ lib_LTLIBRARIES				=
 man_MANS				=
 info_TEXINFOS				=
 noinst_LTLIBRARIES			=
-noinst_LIBRARIES			= lib/libcorset.a
-noinst_HEADERS				= include/corset_common.h
+noinst_LIBRARIES			= lib/libcorset.a \
+					  lib/libcorcfg.a
+noinst_HEADERS				= include/corset_common.h \
+					  include/corcfg.h
 noinst_PROGRAMS				=
 bin_PROGRAMS				=
 bin_SCRIPTS				=
@@ -89,7 +91,9 @@ XFAIL_TESTS				=
 EXTRA_MANS				=
 EXTRA_DIST				= \
 					  $(doc_DATA) \
+					  include/corcfg.h \
 					  include/corset_common.h \
+					  lib/libcorcfg/libcorcfg.sym \
 					  lib/libcorset/libcorset.sym
 CLEANFILES				= \
 					  $(builddir)/a.out   $(srcdir)/a.out \
@@ -105,7 +109,19 @@ CLEANFILES				= \
 DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings
 
 
-# macros for lib/librgutil.a
+# macros for lib/libcorcfg.a
+lib_libcorcfg_a_DEPENDENCIES		= \
+					  Makefile \
+					  config.h \
+					  lib/libcorcfg/libcorcfg.sym
+lib_libcorcfg_a_SOURCES			= \
+					  include/corset_common.h \
+					  lib/libcorcfg/libcorcfg.h \
+					  lib/libcorcfg/version.c \
+					  lib/libcorcfg/version.h
+
+
+# macros for lib/libcorset.a
 lib_libcorset_a_DEPENDENCIES		= \
 					  Makefile \
 					  config.h \
