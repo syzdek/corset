@@ -94,8 +94,9 @@ AC_CHECK_TOOLS(STRIP,   strip gstrip,   [AC_MSG_ERROR([missing binutil "strip"])
 AC_PROG_AWK
 AC_PROG_EGREP
 AC_PROG_FGREP
-AM_PROG_LEX
+#AM_PROG_LEX
 AC_PROG_LN_S
+AC_PROG_CPP
 
 
 # check for common functions
@@ -127,10 +128,12 @@ AC_CHECK_FUNCS([rmdir],          [], [AC_MSG_ERROR([missing required functions])
 AC_CHECK_FUNCS([strcasecmp],     [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strdup],         [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strerror],       [], [AC_MSG_ERROR([missing required functions])])
+AC_CHECK_FUNCS([strtol],         [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strtoul],        [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strtoumax],      [], [AC_MSG_ERROR([missing required functions])])
 
 # check for headers
+AC_CHECK_HEADERS([arpa/inet.h], [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([assert.h],    [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([ctype.h],     [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([errno.h],     [], [AC_MSG_ERROR([missing required headers])])
@@ -144,6 +147,7 @@ AC_CHECK_HEADERS([stdint.h],    [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([stdio.h],     [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([stdlib.h],    [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([string.h],    [], [AC_MSG_ERROR([missing required headers])])
+AC_CHECK_HEADERS([strings.h],   [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([sys/cdefs.h], [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([sys/ioctl.h], [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([sys/types.h], [], [AC_MSG_ERROR([missing required headers])])
