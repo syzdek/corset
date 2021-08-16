@@ -29,5 +29,7 @@
 #
 #   libcorcfg is the configuration parser for Corset
 #
-corcfg_version
+# memory functions
+corcfg_free
+corcfg_open
 # end of file

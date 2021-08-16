@@ -43,6 +43,50 @@
 #include <inttypes.h>
 
 
+//////////////
+//          //
+//  Macros  //
+//          //
+//////////////
+#pragma mark - Macros
+
+// Exports function type
+#undef CORCFG_C_DECLS
+#undef CORCFG_BEGIN_C_DECLS
+#undef CORCFG_END_C_DECLS
+#undef _CORCFG_I
+#undef _CORCFG_F
+#undef _CORCFG_V
+#if defined(__cplusplus) || defined(c_plusplus)
+#   define _CORCFG_I             extern "C" inline
+#   define CORCFG_C_DECLS        "C"             ///< exports as C functions
+#   define CORCFG_BEGIN_C_DECLS  extern "C" {    ///< exports as C functions
+#   define CORCFG_END_C_DECLS    }               ///< exports as C functions
+#else
+#   define _CORCFG_I             inline
+#   define CORCFG_C_DECLS        /* empty */     ///< exports as C functions
+#   define CORCFG_BEGIN_C_DECLS  /* empty */     ///< exports as C functions
+#   define CORCFG_END_C_DECLS    /* empty */     ///< exports as C functions
+#endif
+#ifdef WIN32
+#   ifdef _LIB_LIBCORCFG_H
+#      define _CORCFG_F   extern CORCFG_C_DECLS __declspec(dllexport)   ///< used for library calls
+#      define _CORCFG_V   extern CORCFG_C_DECLS __declspec(dllexport)   ///< used for library calls
+#   else
+#      define _CORCFG_F   extern CORCFG_C_DECLS __declspec(dllimport)   ///< used for library calls
+#      define _CORCFG_V   extern CORCFG_C_DECLS __declspec(dllimport)   ///< used for library calls
+#   endif
+#else
+#   ifdef _LIB_LIBCORCFG_H
+#      define _CORCFG_F   /* empty */                                   ///< used for library calls
+#      define _CORCFG_V   extern CORCFG_C_DECLS                         ///< used for library calls
+#   else
+#      define _CORCFG_F   extern CORCFG_C_DECLS                         ///< used for library calls
+#      define _CORCFG_V   extern CORCFG_C_DECLS                         ///< used for library calls
+#   endif
+#endif
+
+
 ///////////////////
 //               //
 //  Definitions  //
@@ -58,6 +102,15 @@
 //////////////////
 #pragma mark - Data Types
 
+struct corcfg_data
+{
+   struct corcfg_data * parent;
+   char *               filename;
+   unsigned             line;
+   int                  fd;
+};
+typedef struct corcfg_data CORCFG;
+
 
 //////////////////
 //              //
@@ -66,6 +119,20 @@
 //////////////////
 #pragma mark - Prototypes
 
-const char * corcfg_version(void);
+
+//------------------//
+// memory functions //
+//------------------//
+#pragma mark memory functions
+
+_CORCFG_F void
+corcfg_free(
+         CORCFG *                      cfg );
+
+_CORCFG_F int
+corcfg_open(
+         CORCFG **                     cfgp,
+         const char *                  path );
+
 
 #endif /* end of header */

@@ -117,8 +117,8 @@ lib_libcorcfg_a_DEPENDENCIES		= \
 lib_libcorcfg_a_SOURCES			= \
 					  include/corset_common.h \
 					  lib/libcorcfg/libcorcfg.h \
-					  lib/libcorcfg/version.c \
-					  lib/libcorcfg/version.h
+					  lib/libcorcfg/memory.c \
+					  lib/libcorcfg/memory.h
 
 
 # macros for lib/libcorset.a

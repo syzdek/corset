@@ -28,8 +28,8 @@
  *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  *  SUCH DAMAGE.
  */
-#ifndef __LIB_VERSION_H
-#define __LIB_VERSION_H 1
+#define __LIB_MEMORY_C 1
+#include "memory.h"
 
 
 ///////////////
@@ -39,34 +39,82 @@
 ///////////////
 #pragma mark - Headers
 
+#include <assert.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <strings.h>
 #include <unistd.h>
-#include <limits.h>
-
-#include "libcorcfg.h"
+#include <sys/stat.h>
 
 
-///////////////////
-//               //
-//  Definitions  //
-//               //
-///////////////////
-#pragma mark - Definitions
+/////////////////
+//             //
+//  Functions  //
+//             //
+/////////////////
+#pragma mark - Functions
 
 
-//////////////////
-//              //
-//  Data Types  //
-//              //
-//////////////////
-#pragma mark - Data Types
+void corcfg_free(CORCFG * cfg)
+{
+   if (!(cfg))
+      return;
+
+   if (cfg->fd != -1)
+      close(cfg->fd);
+
+   bzero(cfg, sizeof(CORCFG));
+   free(cfg);
+
+   return;
+}
 
 
-//////////////////
-//              //
-//  Prototypes  //
-//              //
-//////////////////
-#pragma mark - Prototypes
+int corcfg_init(CORCFG ** cfgp)
+{
+   CORCFG * cfg;
+
+   assert(cfgp != NULL);
+
+   if ((cfg = malloc(sizeof(CORCFG))) == NULL)
+   {
+      return(1);
+   };
+   bzero(cfg, sizeof(CORCFG));
+
+   cfg->fd = -1;
+
+   *cfgp = cfg;
+
+   return(0);
+}
 
 
-#endif /* end of header */
+int corcfg_open( CORCFG ** cfgp, const char * path )
+{
+   int            rc;
+   CORCFG *       cfg;
+   struct stat    sb;
+
+   assert(cfgp != NULL);
+   assert(path != NULL);
+
+   if ((rc = stat(path, &sb)) == -1)
+      return(-1);
+
+   if ((rc = corcfg_init(&cfg)) == -1)
+      return(-1);
+
+   if ((cfg->fd = open(path, O_RDONLY)) == -1)
+   {
+      corcfg_free(cfg);
+      return(-1);
+   };
+
+   *cfgp = cfg;
+
+   return(0);
+}
+
+
+/* end of source */

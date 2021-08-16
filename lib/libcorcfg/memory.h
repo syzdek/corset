@@ -28,8 +28,8 @@
  *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  *  SUCH DAMAGE.
  */
-#define __LIB_VERSION_C 1
-#include "version.h"
+#ifndef __LIB_MEMORY_H
+#define __LIB_MEMORY_H 1
 
 
 ///////////////
@@ -39,19 +39,36 @@
 ///////////////
 #pragma mark - Headers
 
+#include <unistd.h>
+#include <limits.h>
 
-/////////////////
-//             //
-//  Functions  //
-//             //
-/////////////////
-#pragma mark - Functions
+#include "libcorcfg.h"
 
 
-const char * corcfg_version(void)
-{
-   return(GIT_PACKAGE_VERSION_BUILD);
-}
+///////////////////
+//               //
+//  Definitions  //
+//               //
+///////////////////
+#pragma mark - Definitions
 
 
-/* end of source */
+//////////////////
+//              //
+//  Data Types  //
+//              //
+//////////////////
+#pragma mark - Data Types
+
+
+//////////////////
+//              //
+//  Prototypes  //
+//              //
+//////////////////
+#pragma mark - Prototypes
+
+int corcfg_init(CORCFG ** cfgp);
+
+
+#endif /* end of header */
