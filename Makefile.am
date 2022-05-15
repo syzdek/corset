@@ -70,17 +70,14 @@ lib_LTLIBRARIES				=
 man_MANS				=
 info_TEXINFOS				=
 noinst_LTLIBRARIES			=
-noinst_LIBRARIES			= lib/libcorset.a \
-					  lib/libcorcfg.a
-noinst_HEADERS				= include/corset_common.h \
-					  include/corcfg.h
+noinst_LIBRARIES			=
+noinst_HEADERS				=
 noinst_PROGRAMS				=
 bin_PROGRAMS				=
 bin_SCRIPTS				=
 pkgdata_DATA				=
 sbin_SCRIPTS				=
-sbin_PROGRAMS				= src/corset \
-					  src/corsetd
+sbin_PROGRAMS				=
 
 
 # lists
@@ -90,11 +87,7 @@ TESTS					=
 XFAIL_TESTS				=
 EXTRA_MANS				=
 EXTRA_DIST				= \
-					  $(doc_DATA) \
-					  include/corcfg.h \
-					  include/corset_common.h \
-					  lib/libcorcfg/libcorcfg.sym \
-					  lib/libcorset/libcorset.sym
+					  $(doc_DATA) 
 CLEANFILES				= \
 					  $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
@@ -107,52 +100,6 @@ CLEANFILES				= \
 					  @PACKAGE_TARNAME@-*.txz \
 					  @PACKAGE_TARNAME@-*.zip
 DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings
-
-
-# macros for lib/libcorcfg.a
-lib_libcorcfg_a_DEPENDENCIES		= \
-					  Makefile \
-					  config.h \
-					  lib/libcorcfg/libcorcfg.sym
-lib_libcorcfg_a_SOURCES			= \
-					  include/corset_common.h \
-					  lib/libcorcfg/libcorcfg.h \
-					  lib/libcorcfg/memory.c \
-					  lib/libcorcfg/memory.h
-
-
-# macros for lib/libcorset.a
-lib_libcorset_a_DEPENDENCIES		= \
-					  Makefile \
-					  config.h \
-					  lib/libcorset/libcorset.sym
-lib_libcorset_a_SOURCES			= \
-					  include/corset_common.h \
-					  lib/libcorset/libcorset.h \
-					  lib/libcorset/conf.c \
-					  lib/libcorset/conf.h \
-					  lib/libcorset/version.c \
-					  lib/libcorset/version.h
-
-
-# macros for src/corset
-src_corset_DEPENDENCIES			= Makefile $(LDADD) lib/libcorset.a
-src_corset_LDADD			= lib/libcorset.a
-src_corset_SOURCES			= $(include_HEADERS) \
-					  $(noinst_HEADERS) \
-					  src/client/corset.c \
-					  src/client/corset.h \
-					  src/client/cmd-config.c \
-					  src/client/cmd-config.h
-
-
-# macros for src/corsetd
-src_corsetd_DEPENDENCIES		= Makefile $(LDADD) lib/libcorset.a
-src_corsetd_LDADD			= lib/libcorset.a
-src_corsetd_SOURCES			= $(include_HEADERS) \
-					  $(noinst_HEADERS) \
-					  src/daemon/corsetd.c \
-					  src/daemon/corsetd.h
 
 
 # Makefile includes
