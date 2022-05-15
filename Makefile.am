@@ -1,6 +1,6 @@
 #
 #   Corset Firewall
-#   Copyright (C) 2017 David M. Syzdek <david@syzdek.net>.
+#   Copyright (C) 2022 David M. Syzdek <david@syzdek.net>.
 #
 #   Redistribution and use in source and binary forms, with or without
 #   modification, are permitted provided that the following conditions are
@@ -36,6 +36,8 @@
 SUBDIRS					=
 DIST_SUBDIRS				=
 
+# GNU make options
+V					= 0
 
 # Global flags
 AM_LIBS					=
@@ -44,21 +46,21 @@ AM_CFLAGS				= -O2 $(CFLAGS_WARNINGS)
 AM_CXXFLAGS				= -O2 @AM_CXXFLAGS@
 AM_OBJCFLAGS				= -O2 @AM_OBJCFLAGS@
 AM_CPPFLAGS				= -O2 \
-					  -U__CORSET_PMARK \
 					  -DHAVE_CONFIG_H=1 \
 					  -I$(top_builddir)/include \
 					  -I$(top_srcdir)/include \
-					  -I$(top_srcdir)/src/common \
 					  -DSYSCONFDIR="\"$(sysconfdir)\""
 ACLOCAL_AMFLAGS				= -I m4 -W all -W error
 AM_MAKEINFOFLAGS                        = --no-split
 DEFS					=
 
 
+# custom directories
+
+
 # automake targets
 check_PROGRAMS				=
-doc_DATA				= \
-					  AUTHORS.md \
+doc_DATA				= AUTHORS.md \
 					  ChangeLog.md \
 					  COPYING.md \
 					  doc/DESIGN-GOALS.md \
@@ -67,51 +69,64 @@ doc_DATA				= \
 					  TODO.md
 include_HEADERS				=
 lib_LTLIBRARIES				=
+lib_LIBRARIES				=
 man_MANS				=
 info_TEXINFOS				=
 noinst_LTLIBRARIES			=
-noinst_LIBRARIES			=
-noinst_HEADERS				=
+noinst_LIBRARIES			= lib/libbindle.a
+noinst_HEADERS				= include/bindle_prefix.h
 noinst_PROGRAMS				=
 bin_PROGRAMS				=
 bin_SCRIPTS				=
 pkgdata_DATA				=
 sbin_SCRIPTS				=
 sbin_PROGRAMS				=
+EXTRA_PROGRAMS				=
+EXTRA					=
 
 
 # lists
 AM_INSTALLCHECK_STD_OPTIONS_EXEMPT	=
-BUILT_SOURCES				=
+BUILT_SOURCES				= include/bindle_prefix.h
 TESTS					=
 XFAIL_TESTS				=
 EXTRA_MANS				=
-EXTRA_DIST				= \
-					  $(doc_DATA) 
-CLEANFILES				= \
-					  $(builddir)/a.out   $(srcdir)/a.out \
+EXTRA_DIST				= $(doc_DATA)
+CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
 					  config.h.in~ $(srcdir)/config.h.in~ \
 					  $(man_MANS) \
 					  $(pkgdata_DATA) \
 					  $(bin_SCRIPTS) \
 					  $(sbin_SCRIPTS) \
+					  include/bindle_prefix.h \
 					  @PACKAGE_TARNAME@-*.tar.* \
 					  @PACKAGE_TARNAME@-*.txz \
 					  @PACKAGE_TARNAME@-*.zip
 DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings
 
 
+# conditional build
+
+
 # Makefile includes
 GIT_PACKAGE_VERSION_DIR=include
 SUBST_EXPRESSIONS =
-include $(srcdir)/@bindletools_srcdir@/build-aux/makefile-autotools.am
-include $(srcdir)/@bindletools_srcdir@/build-aux/makefile-subst.am
-include $(srcdir)/@bindletools_srcdir@/build-aux/makefile-version.am
+include contrib/bindletools/build-aux/makefile-autotools.am
+include contrib/bindletools/build-aux/makefile-subst.am
+include contrib/bindletools/build-aux/makefile-version.am
+include contrib/bindletools/build-aux/makefile-libbindle.am
 
 
 # custom targets
-.PHONY:
+.PHONY: dep examples git-clean
+
+dep: include/bindle_prefix.h
+
+git-clean:
+	git fsck --full --unreachable
+	git gc --auto --aggressive
+
 
 # local targets
 install-exec-local:
