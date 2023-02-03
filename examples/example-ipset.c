@@ -1,6 +1,6 @@
 /*
  *  Corset Firewall
- *  Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.
+ *  Copyright (C) 2020, 2023 David M. Syzdek <david@syzdek.net>.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are
@@ -60,8 +60,12 @@
 //  Headers  //
 //           //
 ///////////////
-#ifdef __CORSET_PMARK
 #pragma mark - Headers
+
+#include <otputil_compat.h>
+
+#ifdef HAVE_CONFIG_H
+#   include <config.h>
 #endif
 
 #include <errno.h>
@@ -78,40 +82,40 @@
 #include <libipset/ipset.h>
 
 
-///////////////////
-//               //
-//  Definitions  //
-//               //
-///////////////////
-#ifdef __CORSET_PMARK
-#pragma mark - Definitions
-#endif
-
-
 //////////////////
 //              //
 //  Prototypes  //
 //              //
 //////////////////
-#ifdef __CORSET_PMARK
 #pragma mark - Prototypes
-#endif
 
-int  main(int argc, char * argv[]);
-
-int my_custom_errorfn(struct ipset *ipset, void *p, int status, const char *msg, ...);
-int my_standard_errorfn(struct ipset *ipset, void *p);
-int my_print_outfn(struct ipset_session *session, void *p, const char *fmt, ...);
+extern int
+main(
+         int                           argc,
+         char *                        argv[] );
 
 
-/////////////////
-//             //
-//  Variables  //
-//             //
-/////////////////
-#ifdef __CORSET_PMARK
-#pragma mark - Variables
-#endif
+static int
+my_custom_errorfn(
+         struct ipset *                ipset,
+         void *                        p,
+         int                           status,
+         const char *                  msg,
+         ... );
+
+
+static int
+my_standard_errorfn(
+         struct ipset *                ipset,
+         void *                        p );
+
+
+static int
+my_print_outfn(
+         struct ipset_session *        session,
+         void *                        p,
+         const char *                  fmt,
+         ... );
 
 
 /////////////////
@@ -119,14 +123,15 @@ int my_print_outfn(struct ipset_session *session, void *p, const char *fmt, ...)
 //  Functions  //
 //             //
 /////////////////
-#ifdef __CORSET_PMARK
 #pragma mark - Functions
-#endif
 
-int main(int argc, char * argv[])
+int
+main(
+         int                           argc,
+         char *                        argv[] )
 {
-   char                  * prog_name;
-   struct ipset          * ipset;
+   char *                  prog_name;
+   struct ipset *          ipset;
    int                     rc;
    char                    line[1024];
    char                    errmsg[IPSET_ERRORBUFLEN];
@@ -204,17 +209,26 @@ int main(int argc, char * argv[])
 }
 
 
-int my_custom_errorfn(struct ipset *ipset, void *p, int status, const char *msg, ...)
+int
+my_custom_errorfn(
+         struct ipset *                ipset,
+         void *                        p,
+         int                           status,
+         const char *                  msg,
+         ... )
 {
    strncpy(p, msg, IPSET_ERRORBUFLEN);
    return(-1);
 }
 
 
-int my_standard_errorfn(struct ipset *ipset, void *p)
+int
+my_standard_errorfn(
+         struct ipset *                ipset,
+         void *                        p )
 {
-   char    * errmsg;
-   size_t    len;
+   char *      errmsg;
+   size_t      len;
 
    errmsg = p;
    strncpy(errmsg, ipset_session_report_msg(ipset_session(ipset)), IPSET_ERRORBUFLEN);
@@ -226,7 +240,12 @@ int my_standard_errorfn(struct ipset *ipset, void *p)
 }
 
 
-int my_print_outfn(struct ipset_session *session, void *p, const char *fmt, ...)
+int
+my_print_outfn(
+         struct ipset_session *        session,
+         void *                        p,
+         const char *                  fmt,
+         ... )
 {
    return(0);
 }
