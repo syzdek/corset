@@ -87,7 +87,7 @@ EXTRA					=
 
 # lists
 AM_INSTALLCHECK_STD_OPTIONS_EXEMPT	=
-BUILT_SOURCES				= include/bindle_prefix.h
+BUILT_SOURCES				=
 TESTS					=
 XFAIL_TESTS				=
 EXTRA_MANS				=
@@ -103,7 +103,10 @@ CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
 					  @PACKAGE_TARNAME@-*.tar.* \
 					  @PACKAGE_TARNAME@-*.txz \
 					  @PACKAGE_TARNAME@-*.zip
-DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings
+DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
+					  CFLAGS="$(CFLAGS)" \
+					  CPPFLAGS="$(CPPFLAGS)" \
+					  LDFLAGS="$(LDFLAGS)"
 
 
 # conditional build
@@ -112,16 +115,13 @@ DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings
 # Makefile includes
 GIT_PACKAGE_VERSION_DIR=include
 SUBST_EXPRESSIONS =
-include contrib/bindletools/build-aux/makefile-autotools.am
 include contrib/bindletools/build-aux/makefile-subst.am
 include contrib/bindletools/build-aux/makefile-version.am
 include contrib/bindletools/build-aux/makefile-libbindle.am
 
 
 # custom targets
-.PHONY: dep examples git-clean
-
-dep: include/bindle_prefix.h
+.PHONY: git-clean
 
 git-clean:
 	git fsck --full --unreachable
