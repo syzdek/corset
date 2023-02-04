@@ -1,6 +1,6 @@
 #
 #   Corset Firewall
-#   Copyright (C) 2012 David M. Syzdek <david@syzdek.net>.
+#   Copyright (C) 2023 David M. Syzdek <david@syzdek.net>.
 #
 #   Redistribution and use in source and binary forms, with or without
 #   modification, are permitted provided that the following conditions are
@@ -30,5 +30,25 @@
 #   acinclude.m4 - custom m4 macros used by configure.ac
 #
 
+# AC_CORSET_EXAMPLES()
+# ______________________________________________________________________________
+AC_DEFUN([AC_CORSET_EXAMPLES],[dnl
+   enableval=""
+   AC_ARG_ENABLE(
+      examples,
+      [AS_HELP_STRING([--enable-examples], [build examples])],
+      [ EEXAMPLES=$enableval ],
+      [ EEXAMPLES=$enableval ]
+   )
+
+   if test "x${EEXAMPLES}" == "xyes";then
+      ENABLE_EXAMPLES="yes"
+   else
+      ENABLE_EXAMPLES="no"
+   fi
+
+   AM_CONDITIONAL([ENABLE_EXAMPLES],  [test "$ENABLE_EXAMPLES" = "yes"])
+   AM_CONDITIONAL([DISABLE_EXAMPLES], [test "$ENABLE_EXAMPLES" = "no"])
+])dnl
 
 # end of m4 file

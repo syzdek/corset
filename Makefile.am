@@ -110,6 +110,18 @@ DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
 
 
 # conditional build
+if ENABLE_EXAMPLES
+   noinst_PROGRAMS			+= examples/example-ipset
+   noinst_PROGRAMS			+= examples/example-nfqueue
+endif
+
+
+# macros for examples/example-ipset
+examples_example_ipset_SOURCES		= examples/example-ipset.c
+
+
+# macros for examples/example-nfqueue
+examples_example_nfqueue_SOURCES	= examples/example-nfqueue.c
 
 
 # Makefile includes
