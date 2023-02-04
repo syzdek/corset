@@ -118,10 +118,12 @@ endif
 
 # macros for examples/example-ipset
 examples_example_ipset_SOURCES		= examples/example-ipset.c
+examples_example_ipset_LDADD		= $(AM_LIBS) -lmnl -lipset
 
 
 # macros for examples/example-nfqueue
 examples_example_nfqueue_SOURCES	= examples/example-nfqueue.c
+examples_example_nfqueue_LDADD		= $(AM_LIBS) -lnetfilter_queue
 
 
 # Makefile includes
