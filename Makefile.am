@@ -75,6 +75,7 @@ info_TEXINFOS				=
 noinst_LTLIBRARIES			=
 noinst_LIBRARIES			= lib/libbindle.a
 noinst_HEADERS				= include/bindle_prefix.h
+					  include/corset.h
 noinst_PROGRAMS				=
 bin_PROGRAMS				=
 bin_SCRIPTS				=
@@ -100,18 +101,30 @@ CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
 					  $(pkgdata_DATA) \
 					  $(bin_SCRIPTS) \
 					  $(sbin_SCRIPTS) \
+					  $(EXTRA_PROGRAMS) \
 					  include/bindle_prefix.h \
 					  @PACKAGE_TARNAME@-*.tar.* \
 					  @PACKAGE_TARNAME@-*.txz \
 					  @PACKAGE_TARNAME@-*.zip
 DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
+					  --enable-corsetctl \
+					  --enable-corsetd \
+					  --enable-extra-docs \
+					  --enable-examples \
+					  --enable-module-dev \
 					  CFLAGS="$(CFLAGS)" \
 					  CPPFLAGS="$(CPPFLAGS)" \
 					  LDFLAGS="$(LDFLAGS)"
 
 
 # conditional build
+if ENABLE_DAEMON
+endif
+if ENABLE_DOCUMENATION
+endif
 if ENABLE_EXAMPLES
+endif
+if ENABLE_MODULE_DEV
 endif
 
 

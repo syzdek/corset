@@ -30,6 +30,50 @@
 #   acinclude.m4 - custom m4 macros used by configure.ac
 #
 
+# AC_CORSET_DAEMON()
+# ______________________________________________________________________________
+AC_DEFUN([AC_CORSET_DAEMON],[dnl
+   enableval=""
+   AC_ARG_ENABLE(
+      daemon,
+      [AS_HELP_STRING([--disable-daemon], [install corsetd])],
+      [ EDAEMON=$enableval ],
+      [ EDAEMON=$enableval ]
+   )
+
+   if test "x${EDAEMON}" == "xno";then
+      ENABLE_DAEMON="no"
+   else
+      ENABLE_DAEMON="yes"
+   fi
+
+   AM_CONDITIONAL([ENABLE_DAEMON],  [test "$ENABLE_DAEMON" = "yes"])
+   AM_CONDITIONAL([DISABLE_DAEMON], [test "$ENABLE_DAEMON" = "no"])
+])dnl
+
+
+# AC_CORSET_DOCS()
+# ______________________________________________________________________________
+AC_DEFUN([AC_CORSET_DOCS],[dnl
+   enableval=""
+   AC_ARG_ENABLE(
+      extra-docs,
+      [AS_HELP_STRING([--enable-extra-docs], [install extra documentation])],
+      [ EDOCUMENATION=$enableval ],
+      [ EDOCUMENATION=$enableval ]
+   )
+
+   if test "x${EDOCUMENATION}" == "xyes";then
+      ENABLE_DOCUMENATION="yes"
+   else
+      ENABLE_DOCUMENATION="no"
+   fi
+
+   AM_CONDITIONAL([ENABLE_DOCUMENATION],  [test "$ENABLE_DOCUMENATION" = "yes"])
+   AM_CONDITIONAL([DISABLE_DOCUMENATION], [test "$ENABLE_DOCUMENATION" = "no"])
+])dnl
+
+
 # AC_CORSET_EXAMPLES()
 # ______________________________________________________________________________
 AC_DEFUN([AC_CORSET_EXAMPLES],[dnl
@@ -49,6 +93,28 @@ AC_DEFUN([AC_CORSET_EXAMPLES],[dnl
 
    AM_CONDITIONAL([ENABLE_EXAMPLES],  [test "$ENABLE_EXAMPLES" = "yes"])
    AM_CONDITIONAL([DISABLE_EXAMPLES], [test "$ENABLE_EXAMPLES" = "no"])
+])dnl
+
+
+# AC_CORSET_MODULE_DEV()
+# ______________________________________________________________________________
+AC_DEFUN([AC_CORSET_MODULE_DEV],[dnl
+   enableval=""
+   AC_ARG_ENABLE(
+      module-dev,
+      [AS_HELP_STRING([--enable-module-dev], [install module development files])],
+      [ EMODULEDEV=$enableval ],
+      [ EMODULEDEV=$enableval ]
+   )
+
+   if test "x${EMODULEDEV}" == "xyes";then
+      ENABLE_MODULE_DEV="yes"
+   else
+      ENABLE_MODULE_DEV="no"
+   fi
+
+   AM_CONDITIONAL([ENABLE_MODULE_DEV],  [test "$ENABLE_MODULE_DEV" = "yes"])
+   AM_CONDITIONAL([DISABLE_MODULE_DEV], [test "$ENABLE_MODULE_DEV" = "no"])
 ])dnl
 
 # end of m4 file

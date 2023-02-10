@@ -173,7 +173,10 @@ AC_BINDLE_GIT_PACKAGE_VERSION([contrib/bindletools/build-aux/git-package-version
 # custom configure options
 AC_BINDLE_ENABLE_WARNINGS([-Wno-unknown-pragmas -Wno-missing-format-attribute -Wno-poison-system-directories], [], [c11])
 AC_BINDLE_LIBBINDLE([cfwb_], [lib])
+AC_CORSET_DAEMON
+AC_CORSET_DOCS
 AC_CORSET_EXAMPLES
+AC_CORSET_MODULE_DEV
 
 # Creates outputs
 AC_CONFIG_FILES([Makefile])
@@ -189,10 +192,8 @@ AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Options:])
 AC_MSG_NOTICE([      Build examples             ${ENABLE_EXAMPLES}])
 AC_MSG_NOTICE([      Install extra docs         ${ENABLE_DOCUMENATION}])
-AC_MSG_NOTICE([      Install libcorset.la       ${ENABLE_LIBCORSET}])
-AC_MSG_NOTICE([      Install corsetctl          ${ENABLE_CORSETCTL}])
-AC_MSG_NOTICE([      Install corsetd            ${ENABLE_CORSETD}])
-AC_MSG_NOTICE([      Install common files       ${ENABLE_CORSET_COMMON}])
+AC_MSG_NOTICE([      Install daemon and tools   ${ENABLE_DAEMON}])
+AC_MSG_NOTICE([      Install module dev files   ${ENABLE_MODULE_DEV}])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Please send suggestions to:   $PACKAGE_BUGREPORT])
 AC_MSG_NOTICE([ ])
