@@ -81,7 +81,8 @@ bin_SCRIPTS				=
 pkgdata_DATA				=
 sbin_SCRIPTS				=
 sbin_PROGRAMS				=
-EXTRA_PROGRAMS				=
+EXTRA_PROGRAMS				= examples/example-ipset \
+					  examples/example-nfqueue
 EXTRA					=
 
 
