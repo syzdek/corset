@@ -111,8 +111,6 @@ DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
 
 # conditional build
 if ENABLE_EXAMPLES
-   noinst_PROGRAMS			+= examples/example-ipset
-   noinst_PROGRAMS			+= examples/example-nfqueue
 endif
 
 
