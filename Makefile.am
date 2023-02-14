@@ -87,6 +87,7 @@ sbin_SCRIPTS				=
 sbin_PROGRAMS				=
 EXTRA_PROGRAMS				= src/corsetd \
 					  src/corsetctl \
+					  src/corset-modinfo \
 					  examples/example-ipset \
 					  examples/example-nfqueue
 EXTRA					=
@@ -130,6 +131,7 @@ if ENABLE_DAEMON
    noinst_LIBRARIES			+= lib/libcorset.a
    sbin_PROGRAMS			+= src/corsetctl
    sbin_PROGRAMS			+= src/corsetd
+   sbin_PROGRAMS			+= src/corset-modinfo
 endif
 if ENABLE_DOCUMENATION
 endif
@@ -181,6 +183,14 @@ src_corsetd_LDADD			= $(AM_LIBS) $(noinst_LIBRARIES)
 src_corsetd_SOURCES			= $(noinst_HEADERS) \
 					  src/daemon/corsetd.c \
 					  src/daemon/corsetd.h
+
+
+# macros for src/corset-modinfo
+src_corset_modinfo_DEPENDENCIES		= lib/libcorset.a lib/libbindle.a
+src_corset_modinfo_LDADD		= $(AM_LIBS) $(noinst_LIBRARIES)
+src_corset_modinfo_SOURCES		= $(noinst_HEADERS) \
+					  src/modinfo/corset-modinfo.c \
+					  src/modinfo/corset-modinfo.h
 
 
 # Makefile includes
