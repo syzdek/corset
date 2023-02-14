@@ -86,6 +86,7 @@ pkgdata_DATA				=
 sbin_SCRIPTS				=
 sbin_PROGRAMS				=
 EXTRA_PROGRAMS				= src/corsetd \
+					  src/corsetctl \
 					  examples/example-ipset \
 					  examples/example-nfqueue
 EXTRA					=
@@ -127,6 +128,7 @@ DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
 # conditional build
 if ENABLE_DAEMON
    noinst_LIBRARIES			+= lib/libcorset.a
+   sbin_PROGRAMS			+= src/corsetctl
    sbin_PROGRAMS			+= src/corsetd
 endif
 if ENABLE_DOCUMENATION
@@ -163,6 +165,14 @@ lib_libcorset_a_SOURCES			= $(noinst_HEADERS) \
 					  lib/libcorset/ldebug.h \
 					  lib/libcorset/lmemory.c \
 					  lib/libcorset/lmemory.h
+
+
+# macros for src/corsetctl
+src_corsetctl_DEPENDENCIES		= lib/libcorset.a lib/libbindle.a
+src_corsetctl_LDADD			= $(AM_LIBS) $(noinst_LIBRARIES)
+src_corsetctl_SOURCES			= $(noinst_HEADERS) \
+					  src/ctl/corsetctl.c \
+					  src/ctl/corsetctl.h
 
 
 # macros for src/corsetd
