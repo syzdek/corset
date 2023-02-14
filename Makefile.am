@@ -49,6 +49,8 @@ AM_CPPFLAGS				= -O2 \
 					  -DHAVE_CONFIG_H=1 \
 					  -I$(top_builddir)/include \
 					  -I$(top_srcdir)/include \
+					  -DLOCALSTATEDIR="\"$(localstatedir)\"" \
+					  -DRUNSTATEDIR="\"$(runstatedir)\"" \
 					  -DSYSCONFDIR="\"$(sysconfdir)\""
 ACLOCAL_AMFLAGS				= -I m4 -W all -W error
 AM_MAKEINFOFLAGS                        = --no-split
@@ -74,8 +76,9 @@ man_MANS				=
 info_TEXINFOS				=
 noinst_LTLIBRARIES			=
 noinst_LIBRARIES			= lib/libbindle.a
-noinst_HEADERS				= include/bindle_prefix.h
-					  include/corset.h
+noinst_HEADERS				= include/bindle_prefix.h \
+					  include/corset.h \
+					  include/corset_compat.h
 noinst_PROGRAMS				=
 bin_PROGRAMS				=
 bin_SCRIPTS				=
@@ -93,7 +96,10 @@ BUILT_SOURCES				=
 TESTS					=
 XFAIL_TESTS				=
 EXTRA_MANS				=
-EXTRA_DIST				= $(doc_DATA)
+EXTRA_DIST				= $(doc_DATA) \
+					  include/corset.h \
+					  include/corset_compat.h \
+					  lib/libcorset/libcorset.sym
 CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
 					  config.h.in~ $(srcdir)/config.h.in~ \
@@ -119,12 +125,15 @@ DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
 
 # conditional build
 if ENABLE_DAEMON
+   noinst_LIBRARIES			+= lib/libcorset.a
 endif
 if ENABLE_DOCUMENATION
 endif
 if ENABLE_EXAMPLES
 endif
 if ENABLE_MODULE_DEV
+   include_HEADERS			+= include/corset_compat.h
+   include_HEADERS			+= include/corset_module.h
 endif
 
 
@@ -136,6 +145,22 @@ examples_example_ipset_LDADD		= $(AM_LIBS) -lmnl -lipset
 # macros for examples/example-nfqueue
 examples_example_nfqueue_SOURCES	= examples/example-nfqueue.c
 examples_example_nfqueue_LDADD		= $(AM_LIBS) -lnetfilter_queue
+
+
+# macros for lib/libcorset.a
+lib_libcorset_a_DEPENDENCIES		= Makefile \
+					  config.h
+lib_libcorset_a_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libcorset
+lib_libcorset_a_SOURCES			= $(noinst_HEADERS) \
+					  lib/libcorset/libcorset.h \
+					  lib/libcorset/largs.c \
+					  lib/libcorset/largs.h \
+					  lib/libcorset/ldaemon.c \
+					  lib/libcorset/ldaemon.h \
+					  lib/libcorset/ldebug.c \
+					  lib/libcorset/ldebug.h \
+					  lib/libcorset/lmemory.c \
+					  lib/libcorset/lmemory.h
 
 
 # Makefile includes
