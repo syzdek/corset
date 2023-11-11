@@ -60,7 +60,7 @@
 //  Headers  //
 //           //
 ///////////////
-#pragma mark - Headers
+// MARK: - Headers
 
 #include <corset_compat.h>
 
@@ -89,7 +89,7 @@
 //  Prototypes  //
 //              //
 //////////////////
-#pragma mark - Prototypes
+// MARK: - Prototypes
 
 extern int
 main(
@@ -117,7 +117,7 @@ my_signal(
 //             //
 /////////////////
 #ifdef __CORSET_PMARK
-#pragma mark - Variables
+// MARK: - Variables
 #endif
 
 int          should_exit     = 0;
@@ -132,7 +132,7 @@ char       * prog_name       = NULL;
 //             //
 /////////////////
 #ifdef __CORSET_PMARK
-#pragma mark - Functions
+// MARK: - Functions
 #endif
 
 int main(int argc, char * argv[])
