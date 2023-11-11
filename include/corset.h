@@ -37,7 +37,7 @@
 //  Headers  //
 //           //
 ///////////////
-#pragma mark - Headers
+// MARK: - Headers
 
 #include <stddef.h>
 #include <inttypes.h>
@@ -51,7 +51,7 @@
 //  Definitions  //
 //               //
 ///////////////////
-#pragma mark - Definitions
+// MARK: - Definitions
 
 // general options
 #define CORSET_OPT_PIDFILE          0x0101   // (char *)
@@ -73,7 +73,7 @@
 //  Datatypes  //
 //             //
 /////////////////
-#pragma mark - Datatypes
+// MARK: - Datatypes
 
 typedef struct _corset_cnf corset_cnf_t;
 struct _corset_cnf
@@ -92,12 +92,12 @@ struct _corset_cnf
 //  Prototypes  //
 //              //
 //////////////////
-#pragma mark - Prototypes
+// MARK: - Prototypes
 
 //-------------------------//
 // cli arguments functions //
 //-------------------------//
-#pragma mark daemon functions
+// MARK: daemon functions
 
 _CORSET_F int
 corset_getopt(
@@ -120,7 +120,7 @@ corset_usage_options(
 //------------------//
 // daemon functions //
 //------------------//
-#pragma mark daemon functions
+// MARK: daemon functions
 
 _CORSET_F const char *
 corset_prog_name(
@@ -130,7 +130,7 @@ corset_prog_name(
 //-----------------//
 // debug functions //
 //-----------------//
-#pragma mark debug functions
+// MARK: debug functions
 
 _CORSET_F void
 corset_debug_config(
@@ -141,7 +141,7 @@ corset_debug_config(
 //------------------//
 // memory functions //
 //------------------//
-#pragma mark memory functions
+// MARK: memory functions
 
 _CORSET_F void
 corset_destroy(

@@ -39,7 +39,7 @@
 //  Headers  //
 //           //
 ///////////////
-#pragma mark - Headers
+// MARK: - Headers
 
 #include <corset_compat.h>
 
@@ -64,7 +64,7 @@
 //  Definitions  //
 //               //
 ///////////////////
-#pragma mark - Definitions
+// MARK: - Definitions
 
 #ifndef LOCALSTATEDIR
 #   define LOCALSTATEDIR "/var"
@@ -94,7 +94,7 @@
 //  Datatypes  //
 //             //
 /////////////////
-#pragma mark - Datatypes
+// MARK: - Datatypes
 
 
 /////////////////
@@ -102,7 +102,7 @@
 //  Variables  //
 //             //
 /////////////////
-#pragma mark - Variables
+// MARK: - Variables
 
 
 //////////////////
@@ -110,7 +110,7 @@
 //  Prototypes  //
 //              //
 //////////////////
-#pragma mark - Prototypes
+// MARK: - Prototypes
 
 
 #endif /* end of header file */

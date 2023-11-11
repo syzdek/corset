@@ -36,7 +36,7 @@
 //  Headers  //
 //           //
 ///////////////
-#pragma mark - Headers
+// MARK: - Headers
 
 #include <errno.h>
 #include <stdarg.h>
@@ -54,7 +54,7 @@
 //  Variables  //
 //             //
 /////////////////
-#pragma mark - Variables
+// MARK: - Variables
 
 static int default_cnf_init = 0;
 static corset_cnf_t default_cnf =
@@ -73,7 +73,7 @@ static corset_cnf_t default_cnf =
 //  Prototypes  //
 //              //
 //////////////////
-#pragma mark - Prototypes
+// MARK: - Prototypes
 
 static int
 corset_defaults(
@@ -85,7 +85,7 @@ corset_defaults(
 //  Functions  //
 //             //
 /////////////////
-#pragma mark - Functions
+// MARK: - Functions
 
 int
 corset_defaults(

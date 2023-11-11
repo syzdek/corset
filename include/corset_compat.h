@@ -37,7 +37,7 @@
 //  Definitions  //
 //               //
 ///////////////////
-#pragma mark - Definitions
+// MARK: - Definitions
 
 // defined in the Single UNIX Specification
 #ifndef _XOPEN_SOURCE

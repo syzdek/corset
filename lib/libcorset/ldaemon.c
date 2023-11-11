@@ -36,7 +36,7 @@
 //  Headers  //
 //           //
 ///////////////
-#pragma mark - Headers
+// MARK: - Headers
 
 #include <errno.h>
 #include <stdarg.h>
@@ -50,13 +50,13 @@
 //  Variables  //
 //             //
 /////////////////
-#pragma mark - Variables
+// MARK: - Variables
 
-#pragma mark corset_prog_name[]
+// MARK: corset_prog_name[]
 extern char corset_prog_name_str[];
 char corset_prog_name_str[128];
 
-#pragma mark corset_prog_name_ptr
+// MARK: corset_prog_name_ptr
 const char * corset_prog_name_ptr = "corset";
 
 
@@ -65,7 +65,7 @@ const char * corset_prog_name_ptr = "corset";
 //  Functions  //
 //             //
 /////////////////
-#pragma mark - Functions
+// MARK: - Functions
 
 const char *
 corset_prog_name(

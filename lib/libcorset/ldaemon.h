@@ -37,7 +37,7 @@
 //  Headers  //
 //           //
 ///////////////
-#pragma mark - Headers
+// MARK: - Headers
 
 #include "libcorset.h"
 
@@ -47,7 +47,7 @@
 //  Datatypes  //
 //             //
 /////////////////
-#pragma mark - Datatypes
+// MARK: - Datatypes
 
 
 /////////////////
@@ -55,7 +55,7 @@
 //  Variables  //
 //             //
 /////////////////
-#pragma mark - Variables
+// MARK: - Variables
 
 extern const char * corset_prog_name_ptr;
 
@@ -64,7 +64,7 @@ extern const char * corset_prog_name_ptr;
 //  Prototypes  //
 //              //
 //////////////////
-#pragma mark - Prototypes
+// MARK: - Prototypes
 
 
 #endif /* end of header file */

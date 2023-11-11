@@ -36,7 +36,7 @@
 //  Headers  //
 //           //
 ///////////////
-#pragma mark - Headers
+// MARK: - Headers
 
 #include <errno.h>
 #include <stdarg.h>
@@ -55,7 +55,7 @@
 //  Prototypes  //
 //              //
 //////////////////
-#pragma mark - Prototypes
+// MARK: - Prototypes
 
 static void
 corset_version(
@@ -67,7 +67,7 @@ corset_version(
 //  Functions  //
 //             //
 /////////////////
-#pragma mark - Functions
+// MARK: - Functions
 
 int
 corset_getopt(

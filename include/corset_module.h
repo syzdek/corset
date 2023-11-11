@@ -37,7 +37,7 @@
 //  Headers  //
 //           //
 ///////////////
-#pragma mark - Headers
+// MARK: - Headers
 
 #include <stddef.h>
 #include <inttypes.h>
@@ -49,7 +49,7 @@
 //  Macros  //
 //          //
 //////////////
-#pragma mark - Macros
+// MARK: - Macros
 
 // Exports function type
 #undef CORSET_C_DECLS
@@ -93,7 +93,7 @@
 //  Definitions  //
 //               //
 ///////////////////
-#pragma mark - Definitions
+// MARK: - Definitions
 
 
 /////////////////
@@ -101,7 +101,7 @@
 //  Datatypes  //
 //             //
 /////////////////
-#pragma mark - Datatypes
+// MARK: - Datatypes
 
 
 //////////////////
@@ -109,7 +109,7 @@
 //  Prototypes  //
 //              //
 //////////////////
-#pragma mark - Prototypes
+// MARK: - Prototypes
 CORSET_BEGIN_C_DECLS
 
 
