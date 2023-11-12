@@ -75,7 +75,6 @@
 /////////////////
 // MARK: - Datatypes
 
-typedef struct _corset corset_t;
 struct _corset
 {
    int                  cnf_verbose;

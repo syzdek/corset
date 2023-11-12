@@ -103,6 +103,8 @@
 /////////////////
 // MARK: - Datatypes
 
+typedef struct _corset corset_t;
+
 
 //////////////////
 //              //
