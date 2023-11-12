@@ -75,8 +75,8 @@
 /////////////////
 // MARK: - Datatypes
 
-typedef struct _corset_cnf corset_cnf_t;
-struct _corset_cnf
+typedef struct _corset corset_t;
+struct _corset
 {
    int                  cnf_verbose;
    int                  cnf_flags;
@@ -101,7 +101,7 @@ struct _corset_cnf
 
 _CORSET_F int
 corset_getopt(
-         corset_cnf_t *                cnf,
+         corset_t *                    cnf,
          int                           argc,
          char * const *                argv,
          const char *                  optstring );
@@ -134,7 +134,7 @@ corset_prog_name(
 
 _CORSET_F void
 corset_debug_config(
-         corset_cnf_t *                cnf,
+         corset_t *                    cnf,
          FILE *                        fs );
 
 
@@ -145,24 +145,24 @@ corset_debug_config(
 
 _CORSET_F void
 corset_destroy(
-         corset_cnf_t *                cnf );
+         corset_t *                    cnf );
 
 
 _CORSET_F int
 corset_get_param(
-         corset_cnf_t *                cnf,
+         corset_t *                    cnf,
          int                           option,
          void *                        outvalue );
 
 
-_CORSET_F corset_cnf_t *
+_CORSET_F corset_t *
 corset_init(
          void );
 
 
 _CORSET_F int
 corset_set_param(
-         corset_cnf_t *                cnf,
+         corset_t *                    cnf,
          int                           option,
          const void *                  invalue );
 

@@ -57,7 +57,7 @@
 // MARK: - Variables
 
 static int default_cnf_init = 0;
-static corset_cnf_t default_cnf =
+static corset_t default_cnf =
 {
    .cnf_conffile           = NULL,
    .cnf_flags              = 0,
@@ -77,7 +77,7 @@ static corset_cnf_t default_cnf =
 
 static int
 corset_defaults(
-         corset_cnf_t *                cnf );
+         corset_t *                    cnf );
 
 
 /////////////////
@@ -89,7 +89,7 @@ corset_defaults(
 
 int
 corset_defaults(
-         corset_cnf_t *                cnf )
+         corset_t *                    cnf )
 {
    int               rc;
    int               ival;
@@ -141,7 +141,7 @@ corset_defaults(
 
 void
 corset_destroy(
-         corset_cnf_t *                cnf )
+         corset_t *                    cnf )
 {
    if (!(cnf))
       return;
@@ -156,7 +156,7 @@ corset_destroy(
 
 int
 corset_get_param(
-         corset_cnf_t *                cnf,
+         corset_t *                    cnf,
          int                           option,
          void *                        outvalue )
 {
@@ -216,12 +216,12 @@ corset_get_param(
 }
 
 
-corset_cnf_t *
+corset_t *
 corset_init(
          void )
 {
    int               rc;
-   corset_cnf_t *    cnf;
+   corset_t *        cnf;
 
    // initialize defaults
    if (!(default_cnf_init))
@@ -229,9 +229,9 @@ corset_init(
          return(NULL);
 
    // initialize memory
-   if ((cnf = malloc(sizeof(corset_cnf_t))) == NULL)
+   if ((cnf = malloc(sizeof(corset_t))) == NULL)
       return(NULL);
-   memset(cnf, 0, sizeof(corset_cnf_t));
+   memset(cnf, 0, sizeof(corset_t));
    if ((rc = corset_defaults(cnf)) != 0)
    {
       corset_destroy(cnf);
@@ -244,7 +244,7 @@ corset_init(
 
 int
 corset_set_param(
-         corset_cnf_t *                cnf,
+         corset_t *                    cnf,
          int                           option,
          const void *                  invalue )
 {

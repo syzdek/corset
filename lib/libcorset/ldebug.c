@@ -76,7 +76,7 @@ corset_debug_print_str(
 
 void
 corset_debug_config(
-         corset_cnf_t *                cnf,
+         corset_t *                    cnf,
          FILE *                        fs )
 {
    if (!(cnf))

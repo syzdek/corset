@@ -109,7 +109,7 @@ main(
          char *                        argv[] )
 {
    int               rc;
-   corset_cnf_t *    cnf;
+   corset_t *        cnf;
 
    static const char *  short_opt = "fhL:qVv";
 

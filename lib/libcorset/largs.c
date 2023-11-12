@@ -59,7 +59,7 @@
 
 static void
 corset_version(
-         corset_cnf_t *                cnf );
+         corset_t *                    cnf );
 
 
 /////////////////
@@ -71,7 +71,7 @@ corset_version(
 
 int
 corset_getopt(
-         corset_cnf_t *                cnf,
+         corset_t *                    cnf,
          int                           argc,
          char * const *                argv,
          const char *                  optstring )
@@ -171,7 +171,7 @@ corset_usage_options(
 
 void
 corset_version(
-         corset_cnf_t *                cnf )
+         corset_t *                    cnf )
 {
    assert(cnf  != NULL);
    printf(
