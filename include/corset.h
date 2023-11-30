@@ -78,11 +78,15 @@
 struct _corset
 {
    int                  cnf_verbose;
-   int                  cnf_flags;
+   unsigned             cnf_flags;
+   unsigned             cnf_ctx_cnt;
+   unsigned             cnf_mods_cnt;
    char *               cnf_conffile;
    char *               cnf_moddir;
    char *               cnf_pidfile;
    char *               cnf_sockfile;
+   corset_mod_t **      cnf_mods;
+   corset_ctx_t **      cnf_ctx;
 };
 
 

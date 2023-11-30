@@ -95,6 +95,18 @@
 ///////////////////
 // MARK: - Definitions
 
+#define CORSET_API                           0
+
+
+#define CORSET_MOD_SINGLE                    0x0001
+
+
+#define CORSET_USE_TRIGGER                   0x0001
+#define CORSET_USE_CACHE                     0x0002
+#define CORSET_USE_AUTHEN                    0x0004
+#define CORSET_USE_AUTHOR                    0x0008
+#define CORSET_USE_ACCT                      0x0010
+
 
 /////////////////
 //             //
@@ -103,7 +115,46 @@
 /////////////////
 // MARK: - Datatypes
 
-typedef struct _corset corset_t;
+typedef struct _corset                       corset_t;
+typedef struct _corset_module                corset_mod_t;
+typedef struct _corset_module_context        corset_ctx_t;
+typedef struct corset_module_data            corset_dat_t;
+
+
+struct _corset_module
+{
+   uint8_t                 mod_api;             // module API specificication version
+   uint8_t                 mod_usage;           // types of module functions implemented
+   uint8_t                 mod_reserved1;
+   uint8_t                 mod_ctx_cnt;         // count of module contexts
+   uint32_t                mod_flags;           // module options
+   char *                  mod_name;            // internal name of module
+   char *                  mod_path;            // directory path to module
+   corset_ctx_t **         mod_ctx;             // array of module contexts
+
+   // module functions
+   int (*mod_load)(corset_t * cor);
+   int (*mod_unload)(corset_t * cor);
+
+   // context functions
+   int (*mod_initialize)(corset_ctx_t * ctx);
+   int (*mod_destroy)(corset_ctx_t * ctx);
+
+   // connection functions
+   int (*mod_connect)(corset_ctx_t * ctx);
+   int (*mod_disconnect)(corset_ctx_t * ctx);
+   int (*mod_noop)(corset_ctx_t * ctx);
+};
+
+
+struct _corset_module_context
+{
+   char *                  ctx_name;
+   corset_t *              ctx_cor;
+   corset_dat_t *          ctx_dat;          // context data/state
+   const corset_mod_t *    ctx_mod;          // module definition
+   corset_ctx_t *          ctx_conn;         // shared connection
+};
 
 
 //////////////////
