@@ -165,7 +165,7 @@ corset_init(
 
 _CORSET_F int
 corset_set_param(
-         corset_t *                    cnf,
+         corset_t *                    ch,
          int                           option,
          const void *                  invalue );
 

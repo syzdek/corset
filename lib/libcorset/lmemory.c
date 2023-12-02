@@ -208,7 +208,7 @@ corset_init(
 
 int
 corset_set_param(
-         corset_t *                    cnf,
+         corset_t *                    ch,
          int                           option,
          const void *                  invalue )
 {
@@ -220,48 +220,48 @@ corset_set_param(
       invalue = ((invalue)) ? invalue : CORSET_DFLT_CONFFILE;
       if ((str = bindle_strdup(invalue)) == NULL)
          return(-1);
-      if ((cnf->cor_conffile))
-         free(cnf->cor_conffile);
-      cnf->cor_conffile = str;
+      if ((ch->cor_conffile))
+         free(ch->cor_conffile);
+      ch->cor_conffile = str;
       return(0);
 
       case CORSET_OPT_FOREGROUND:
-      corset_set_param_flag(cnf, CORSET_FLG_FOREGROUND, CORSET_DFLT_FOREGROUND, invalue);
+      corset_set_param_flag(ch, CORSET_FLG_FOREGROUND, CORSET_DFLT_FOREGROUND, invalue);
       return(0);
 
       case CORSET_OPT_MODDIR:
       invalue = ((invalue)) ? invalue : CORSET_DFLT_MODDIR;
       if ((str = bindle_strdup(invalue)) == NULL)
          return(-1);
-      if ((cnf->cor_moddir))
-         free(cnf->cor_moddir);
-      cnf->cor_moddir = str;
+      if ((ch->cor_moddir))
+         free(ch->cor_moddir);
+      ch->cor_moddir = str;
       return(0);
 
       case CORSET_OPT_PIDFILE:
       invalue = ((invalue)) ? invalue : CORSET_DFLT_PIDFILE;
       if ((str = bindle_strdup(invalue)) == NULL)
          return(-1);
-      if ((cnf->cor_pidfile))
-         free(cnf->cor_pidfile);
-      cnf->cor_pidfile = str;
+      if ((ch->cor_pidfile))
+         free(ch->cor_pidfile);
+      ch->cor_pidfile = str;
       return(0);
 
       case CORSET_OPT_QUIET:
-      corset_set_param_flag(cnf, CORSET_FLG_QUIET, CORSET_DFLT_QUIET, invalue);
+      corset_set_param_flag(ch, CORSET_FLG_QUIET, CORSET_DFLT_QUIET, invalue);
       return(0);
 
       case CORSET_OPT_SOCKET:
       invalue = ((invalue)) ? invalue : CORSET_DFLT_SOCKET;
       if ((str = bindle_strdup(invalue)) == NULL)
          return(-1);
-      if ((cnf->cor_sockfile))
-         free(cnf->cor_sockfile);
-      cnf->cor_sockfile = str;
+      if ((ch->cor_sockfile))
+         free(ch->cor_sockfile);
+      ch->cor_sockfile = str;
       return(0);
 
       case CORSET_OPT_VERBOSE:
-      cnf->cor_verbose = ((invalue)) ? *((const int *)invalue) : CORSET_DFLT_VERBOSE;
+      ch->cor_verbose = ((invalue)) ? *((const int *)invalue) : CORSET_DFLT_VERBOSE;
       return(0);
 
       default:
