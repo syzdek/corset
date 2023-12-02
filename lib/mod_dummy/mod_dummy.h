@@ -100,12 +100,12 @@ extern const corset_mod_t mod_dummy;
 
 extern int
 mod_dummy_load(
-         corset_t *                    cnf );
+         corset_t *                    ch );
 
 
 extern int
 mod_dummy_unload(
-         corset_t *                    cnf );
+         corset_t *                    ch );
 
 
 #endif /* end of header file */
