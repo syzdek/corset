@@ -104,7 +104,7 @@ struct _corset
 
 _CORSET_F int
 corset_getopt(
-         corset_t *                    cnf,
+         corset_t *                    ch,
          int                           argc,
          char * const *                argv,
          const char *                  optstring );

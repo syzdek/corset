@@ -71,7 +71,7 @@ corset_version(
 
 int
 corset_getopt(
-         corset_t *                    cnf,
+         corset_t *                    ch,
          int                           argc,
          char * const *                argv,
          const char *                  optstring )
@@ -90,7 +90,7 @@ corset_getopt(
       { NULL, 0, NULL, 0 }
    };
 
-   assert(cnf  != NULL);
+   assert(ch   != NULL);
    assert(argc != 0);
    assert(argv != NULL);
 
@@ -106,7 +106,7 @@ corset_getopt(
          break;
 
          case 'f':
-         cnf->cor_flags |= CORSET_FLG_FOREGROUND;
+         ch->cor_flags |= CORSET_FLG_FOREGROUND;
          break;
 
          case 'h':
@@ -114,7 +114,7 @@ corset_getopt(
          return(2);
 
          case 'L':
-         if ((rc = corset_set_param(cnf, CORSET_OPT_MODDIR, optarg)) != 0)
+         if ((rc = corset_set_param(ch, CORSET_OPT_MODDIR, optarg)) != 0)
          {
             fprintf(stderr, "%s: %s\n", corset_prog_name_ptr, "out of virtual memory");
             return(1);
@@ -122,15 +122,15 @@ corset_getopt(
          break;
 
          case 'q':
-         cnf->cor_flags |= CORSET_FLG_QUIET;
+         ch->cor_flags |= CORSET_FLG_QUIET;
          break;
 
          case 'V':
-         corset_version(cnf);
+         corset_version(ch);
          return(2);
 
          case 'v':
-         cnf->cor_verbose++;
+         ch->cor_verbose++;
          break;
 
          case '?':
@@ -144,7 +144,7 @@ corset_getopt(
       };
    };
 
-   if ( ((cnf->cor_flags & CORSET_FLG_QUIET)) && ((cnf->cor_verbose)) )
+   if ( ((ch->cor_flags & CORSET_FLG_QUIET)) && ((ch->cor_verbose)) )
    {
       fprintf(stderr, "%s: incompatible options `-q' and `-v'\n", corset_prog_name_ptr);
       fprintf(stderr, "Try `%s --help' for more information.\n", corset_prog_name_ptr);
