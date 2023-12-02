@@ -59,7 +59,7 @@
 
 static void
 corset_version(
-         corset_t *                    cnf );
+         corset_t *                    ch );
 
 
 /////////////////
@@ -171,15 +171,11 @@ corset_usage_options(
 
 void
 corset_version(
-         corset_t *                    cnf )
+         corset_t *                    ch )
 {
-   assert(cnf  != NULL);
-   printf(
-      (
-         "%s (%s) %s\n"
-         "Written by David M. Syzdek.\n"
-      ), corset_prog_name_ptr, PACKAGE_NAME, PACKAGE_VERSION
-   );
+   assert(ch  != NULL);
+   printf("%s (%s) %s\n", corset_prog_name_ptr, PACKAGE_NAME, PACKAGE_VERSION);
+   printf("Written by David M. Syzdek.\n");
    return;
 }
 
