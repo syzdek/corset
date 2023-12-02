@@ -90,13 +90,13 @@ corset_debug_config(
    corset_debug_print_section(fs, 0, NULL);
 
    corset_debug_print_section(fs, 0, "General Options:");
-   corset_debug_print_str(fs, 0, "Quiet Mode:",             (((cnf->cnf_flags & CORSET_FLG_QUIET)) ? "yes" : "no"));
-   corset_debug_print_str(fs, 0, "Verbose Mode:",           (((cnf->cnf_verbose)) ? "yes" : "no"));
-   corset_debug_print_str(fs, 0, "Run in Foreground:",      (((cnf->cnf_flags & CORSET_FLG_FOREGROUND)) ? "yes" : "no"));
-   corset_debug_print_str(fs, 0, "Configuration File:",     cnf->cnf_conffile);
-   corset_debug_print_str(fs, 0, "PID File:",               cnf->cnf_pidfile);
-   corset_debug_print_str(fs, 0, "Control Socket:",         cnf->cnf_sockfile);
-   corset_debug_print_str(fs, 0, "Module Directory:",       cnf->cnf_moddir);
+   corset_debug_print_str(fs, 0, "Quiet Mode:",             (((cnf->cor_flags & CORSET_FLG_QUIET)) ? "yes" : "no"));
+   corset_debug_print_str(fs, 0, "Verbose Mode:",           (((cnf->cor_verbose)) ? "yes" : "no"));
+   corset_debug_print_str(fs, 0, "Run in Foreground:",      (((cnf->cor_flags & CORSET_FLG_FOREGROUND)) ? "yes" : "no"));
+   corset_debug_print_str(fs, 0, "Configuration File:",     cnf->cor_conffile);
+   corset_debug_print_str(fs, 0, "PID File:",               cnf->cor_pidfile);
+   corset_debug_print_str(fs, 0, "Control Socket:",         cnf->cor_sockfile);
+   corset_debug_print_str(fs, 0, "Module Directory:",       cnf->cor_moddir);
    corset_debug_print_section(fs, 0, NULL);
 
    return;

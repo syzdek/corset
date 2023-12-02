@@ -106,7 +106,7 @@ corset_getopt(
          break;
 
          case 'f':
-         cnf->cnf_flags |= CORSET_FLG_FOREGROUND;
+         cnf->cor_flags |= CORSET_FLG_FOREGROUND;
          break;
 
          case 'h':
@@ -122,7 +122,7 @@ corset_getopt(
          break;
 
          case 'q':
-         cnf->cnf_flags |= CORSET_FLG_QUIET;
+         cnf->cor_flags |= CORSET_FLG_QUIET;
          break;
 
          case 'V':
@@ -130,7 +130,7 @@ corset_getopt(
          return(2);
 
          case 'v':
-         cnf->cnf_verbose++;
+         cnf->cor_verbose++;
          break;
 
          case '?':
@@ -144,7 +144,7 @@ corset_getopt(
       };
    };
 
-   if ( ((cnf->cnf_flags & CORSET_FLG_QUIET)) && ((cnf->cnf_verbose)) )
+   if ( ((cnf->cor_flags & CORSET_FLG_QUIET)) && ((cnf->cor_verbose)) )
    {
       fprintf(stderr, "%s: incompatible options `-q' and `-v'\n", corset_prog_name_ptr);
       fprintf(stderr, "Try `%s --help' for more information.\n", corset_prog_name_ptr);
