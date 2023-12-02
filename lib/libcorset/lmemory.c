@@ -189,20 +189,20 @@ corset_t *
 corset_init(
          void )
 {
-   corset_t *        cnf;
+   corset_t *        ch;
 
    // initialize memory
-   if ((cnf = malloc(sizeof(corset_t))) == NULL)
+   if ((ch = malloc(sizeof(corset_t))) == NULL)
       return(NULL);
-   memset(cnf, 0, sizeof(corset_t));
+   memset(ch, 0, sizeof(corset_t));
 
-   if ((corset_defaults(cnf)))
+   if ((corset_defaults(ch)))
    {
-      corset_destroy(cnf);
+      corset_destroy(ch);
       return(NULL);
    };
 
-   return(cnf);
+   return(ch);
 }
 
 
