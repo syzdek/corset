@@ -109,27 +109,27 @@ main(
          char *                        argv[] )
 {
    int               rc;
-   corset_t *        cnf;
+   corset_t *        ch;
 
    static const char *  short_opt = "fhL:qVv";
 
    // initialize library
    corset_prog_name(PROGRAM_NAME);
-   if ((cnf = corset_init()) == NULL)
+   if ((ch = corset_init()) == NULL)
    {
       fprintf(stderr, "%s: out of virtual memory\n", PROGRAM_NAME);
       return(1);
    };
 
-   if ((rc = corset_getopt(cnf, argc, argv, short_opt)) != 0)
+   if ((rc = corset_getopt(ch, argc, argv, short_opt)) != 0)
    {
-      corset_destroy(cnf);
+      corset_destroy(ch);
       return( (rc == 1) ? 1 : 0 );
    };
 
-   corset_debug_config(cnf, NULL);
+   corset_debug_config(ch, NULL);
 
-   corset_destroy(cnf);
+   corset_destroy(ch);
 
    return(0);
 }
