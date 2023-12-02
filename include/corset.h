@@ -153,7 +153,7 @@ corset_destroy(
 
 _CORSET_F int
 corset_get_param(
-         corset_t *                    cnf,
+         corset_t *                    ch,
          int                           option,
          void *                        outvalue );
 

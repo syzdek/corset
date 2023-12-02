@@ -133,7 +133,7 @@ corset_destroy(
 
 int
 corset_get_param(
-         corset_t *                    cnf,
+         corset_t *                    ch,
          int                           option,
          void *                        outvalue )
 {
@@ -142,39 +142,39 @@ corset_get_param(
    switch(option)
    {
       case CORSET_OPT_CONFFILE:
-      if ((str = bindle_strdup(cnf->cor_conffile)) == NULL)
+      if ((str = bindle_strdup(ch->cor_conffile)) == NULL)
          return(-1);
       *((char **)outvalue) = str;
       return(0);
 
       case CORSET_OPT_FOREGROUND:
-      *((int *)outvalue) = ((cnf->cor_flags & CORSET_FLG_FOREGROUND)) ? 1 : 0;
+      *((int *)outvalue) = ((ch->cor_flags & CORSET_FLG_FOREGROUND)) ? 1 : 0;
       return(0);
 
       case CORSET_OPT_MODDIR:
-      if ((str = bindle_strdup(cnf->cor_moddir)) == NULL)
+      if ((str = bindle_strdup(ch->cor_moddir)) == NULL)
          return(-1);
       *((char **)outvalue) = str;
       return(0);
 
       case CORSET_OPT_PIDFILE:
-      if ((str = bindle_strdup(cnf->cor_pidfile)) == NULL)
+      if ((str = bindle_strdup(ch->cor_pidfile)) == NULL)
          return(-1);
       *((char **)outvalue) = str;
       return(0);
 
       case CORSET_OPT_QUIET:
-      *((int *)outvalue) = ((cnf->cor_flags & CORSET_FLG_QUIET)) ? 1 : 0;
+      *((int *)outvalue) = ((ch->cor_flags & CORSET_FLG_QUIET)) ? 1 : 0;
       return(0);
 
       case CORSET_OPT_SOCKET:
-      if ((str = bindle_strdup(cnf->cor_sockfile)) == NULL)
+      if ((str = bindle_strdup(ch->cor_sockfile)) == NULL)
          return(-1);
       *((char **)outvalue) = str;
       return(0);
 
       case CORSET_OPT_VERBOSE:
-      *((int *)outvalue) = cnf->cor_verbose;
+      *((int *)outvalue) = ch->cor_verbose;
       return(0);
 
       default:
