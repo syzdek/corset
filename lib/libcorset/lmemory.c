@@ -118,14 +118,14 @@ corset_defaults(
 
 void
 corset_destroy(
-         corset_t *                    cnf )
+         corset_t *                    ch )
 {
-   if (!(cnf))
+   if (!(ch))
       return;
 
-   if ((cnf->cor_pidfile))
-      free(cnf->cor_pidfile);
-   free(cnf);
+   if ((ch->cor_pidfile))
+      free(ch->cor_pidfile);
+   free(ch);
 
    return;
 }

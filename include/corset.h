@@ -148,7 +148,7 @@ corset_debug_config(
 
 _CORSET_F void
 corset_destroy(
-         corset_t *                    cnf );
+         corset_t *                    ch );
 
 
 _CORSET_F int
