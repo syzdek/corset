@@ -49,23 +49,28 @@
 #include "ldaemon.h"
 
 
+///////////////////
+//               //
+//  Definitions  //
+//               //
+///////////////////
+// MARK: - Definitions
+
+#define CORSET_DFLT_CONFFILE        (PKGCONFDIR    "/corsetd.conf")
+#define CORSET_DFLT_FOREGROUND      CORSET_NO
+#define CORSET_DFLT_MODDIR          (PKGLIBDIR     "/modules")
+#define CORSET_DFLT_PIDFILE         (RUNSTATEDIR   "/corsetd.pid")
+#define CORSET_DFLT_SOCKET          (RUNSTATEDIR   "/corsetd.sock")
+#define CORSET_DFLT_VERBOSE         0
+#define CORSET_DFLT_QUIET           CORSET_NO
+
+
 /////////////////
 //             //
 //  Variables  //
 //             //
 /////////////////
 // MARK: - Variables
-
-static int default_cnf_init = 0;
-static corset_t default_cnf =
-{
-   .cnf_conffile           = NULL,
-   .cnf_flags              = 0,
-   .cnf_moddir             = NULL,
-   .cnf_pidfile            = NULL,
-   .cnf_sockfile           = NULL,
-   .cnf_verbose            = 0,
-};
 
 
 //////////////////
@@ -77,7 +82,15 @@ static corset_t default_cnf =
 
 static int
 corset_defaults(
-         corset_t *                    cnf );
+         corset_t *                    ch );
+
+
+static void
+corset_set_param_flag(
+         corset_t *                    ch,
+         unsigned                      flag,
+         int                           dflt,
+         const int *                   valp );
 
 
 /////////////////
@@ -89,52 +102,16 @@ corset_defaults(
 
 int
 corset_defaults(
-         corset_t *                    cnf )
+         corset_t *                    ch )
 {
-   int               rc;
-   int               ival;
-   const char *      str;
-   char              buff[128];
-
-   default_cnf_init  = 1;
-   cnf               = ((cnf)) ? cnf : &default_cnf;
-
-   // copy flags
-   cnf->cnf_flags = default_cnf.cnf_flags;
-
-   // CORSET_OPT_CONFFILE
-   str = ((default_cnf.cnf_conffile)) ? default_cnf.cnf_conffile : buff;
-   if (str == buff)
-      snprintf(buff, sizeof(buff), "%s/%s.conf", PKGCONFDIR, corset_prog_name_ptr);
-   if ((rc = corset_set_param(cnf, CORSET_OPT_CONFFILE, str)) != 0)
-      return(rc);
-
-   // CORSET_OPT_MODDIR
-   str = ((default_cnf.cnf_moddir)) ? default_cnf.cnf_moddir : buff;
-   if (str == buff)
-      snprintf(buff, sizeof(buff), "%s/modules", PKGLIBDIR);
-   if ((rc = corset_set_param(cnf, CORSET_OPT_MODDIR, str)) != 0)
-      return(rc);
-
-   // CORSET_OPT_PIDFILE
-   str = ((default_cnf.cnf_pidfile)) ? default_cnf.cnf_pidfile : buff;
-   if (str == buff)
-      snprintf(buff, sizeof(buff), "%s/%s.pid", RUNSTATEDIR, corset_prog_name_ptr);
-   if ((rc = corset_set_param(cnf, CORSET_OPT_PIDFILE, str)) != 0)
-      return(rc);
-
-   // CORSET_OPT_SOCKET
-   str = ((default_cnf.cnf_sockfile)) ? default_cnf.cnf_sockfile : buff;
-   if (str == buff)
-      snprintf(buff, sizeof(buff), "%s/%s.sock", RUNSTATEDIR, corset_prog_name_ptr);
-   if ((rc = corset_set_param(cnf, CORSET_OPT_SOCKET, str)) != 0)
-      return(rc);
-
-   // CORSET_OPT_VERBOSE
-   ival = default_cnf.cnf_verbose;
-   if ((rc = corset_set_param(cnf, CORSET_OPT_VERBOSE, &ival)) != 0)
-      return(rc);
-
+   int rc;
+   if ((rc = corset_set_param(ch, CORSET_OPT_CONFFILE,      NULL))) return(rc);
+   if ((rc = corset_set_param(ch, CORSET_OPT_FOREGROUND,    NULL))) return(rc);
+   if ((rc = corset_set_param(ch, CORSET_OPT_MODDIR,        NULL))) return(rc);
+   if ((rc = corset_set_param(ch, CORSET_OPT_PIDFILE,       NULL))) return(rc);
+   if ((rc = corset_set_param(ch, CORSET_OPT_SOCKET,        NULL))) return(rc);
+   if ((rc = corset_set_param(ch, CORSET_OPT_VERBOSE,       NULL))) return(rc);
+   if ((rc = corset_set_param(ch, CORSET_OPT_QUIET,         NULL))) return(rc);
    return(0);
 }
 
@@ -160,15 +137,7 @@ corset_get_param(
          int                           option,
          void *                        outvalue )
 {
-   int            rc;
    char *         str;
-
-   cnf = ((cnf)) ? cnf : &default_cnf;
-
-   // initialize defaults
-   if (!(default_cnf_init))
-      if ((rc = corset_defaults(NULL)) != 0)
-         return(rc);
 
    switch(option)
    {
@@ -220,19 +189,14 @@ corset_t *
 corset_init(
          void )
 {
-   int               rc;
    corset_t *        cnf;
-
-   // initialize defaults
-   if (!(default_cnf_init))
-      if ((rc = corset_defaults(NULL)) != 0)
-         return(NULL);
 
    // initialize memory
    if ((cnf = malloc(sizeof(corset_t))) == NULL)
       return(NULL);
    memset(cnf, 0, sizeof(corset_t));
-   if ((rc = corset_defaults(cnf)) != 0)
+
+   if ((corset_defaults(cnf)))
    {
       corset_destroy(cnf);
       return(NULL);
@@ -248,19 +212,12 @@ corset_set_param(
          int                           option,
          const void *                  invalue )
 {
-   int            rc;
    char *         str;
-
-   cnf = ((cnf)) ? cnf : &default_cnf;
-
-   // initialize defaults
-   if (!(default_cnf_init))
-      if ((rc = corset_defaults(NULL)) != 0)
-         return(rc);
 
    switch(option)
    {
       case CORSET_OPT_CONFFILE:
+      invalue = ((invalue)) ? invalue : CORSET_DFLT_CONFFILE;
       if ((str = bindle_strdup(invalue)) == NULL)
          return(-1);
       if ((cnf->cnf_conffile))
@@ -269,14 +226,11 @@ corset_set_param(
       return(0);
 
       case CORSET_OPT_FOREGROUND:
-      if ((invalue))
-         cnf->cnf_flags |= CORSET_FLG_FOREGROUND;
-      if (!(invalue))
-         cnf->cnf_flags &= ~CORSET_FLG_FOREGROUND;
+      corset_set_param_flag(cnf, CORSET_FLG_FOREGROUND, CORSET_DFLT_FOREGROUND, invalue);
       return(0);
 
       case CORSET_OPT_MODDIR:
-      invalue = ((invalue)) ? invalue : default_cnf.cnf_moddir;
+      invalue = ((invalue)) ? invalue : CORSET_DFLT_MODDIR;
       if ((str = bindle_strdup(invalue)) == NULL)
          return(-1);
       if ((cnf->cnf_moddir))
@@ -285,6 +239,7 @@ corset_set_param(
       return(0);
 
       case CORSET_OPT_PIDFILE:
+      invalue = ((invalue)) ? invalue : CORSET_DFLT_PIDFILE;
       if ((str = bindle_strdup(invalue)) == NULL)
          return(-1);
       if ((cnf->cnf_pidfile))
@@ -293,13 +248,11 @@ corset_set_param(
       return(0);
 
       case CORSET_OPT_QUIET:
-      if ((invalue))
-         cnf->cnf_flags |= CORSET_FLG_QUIET;
-      if (!(invalue))
-         cnf->cnf_flags &= ~CORSET_FLG_QUIET;
+      corset_set_param_flag(cnf, CORSET_FLG_QUIET, CORSET_DFLT_QUIET, invalue);
       return(0);
 
       case CORSET_OPT_SOCKET:
+      invalue = ((invalue)) ? invalue : CORSET_DFLT_SOCKET;
       if ((str = bindle_strdup(invalue)) == NULL)
          return(-1);
       if ((cnf->cnf_sockfile))
@@ -308,7 +261,7 @@ corset_set_param(
       return(0);
 
       case CORSET_OPT_VERBOSE:
-      cnf->cnf_verbose = ((invalue)) ? *((const int *)invalue) : default_cnf.cnf_verbose;
+      cnf->cnf_verbose = ((invalue)) ? *((const int *)invalue) : CORSET_DFLT_VERBOSE;
       return(0);
 
       default:
@@ -318,5 +271,30 @@ corset_set_param(
    return(-1);
 }
 
+
+void
+corset_set_param_flag(
+         corset_t *                    ch,
+         unsigned                      flag,
+         int                           dflt,
+         const int *                   valp )
+{
+   int ival;
+
+   assert(ch != NULL);
+
+   if (!(valp))
+   {
+      ival  = dflt;
+      valp  = &ival;
+   };
+
+   if ((*valp))
+      ch->cnf_flags |= flag;
+   else
+      ch->cnf_flags &= ~flag;
+
+   return;
+}
 
 /* end of source file */

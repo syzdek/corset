@@ -98,6 +98,10 @@
 #define CORSET_API                           0
 
 
+#define CORSET_NO                            0
+#define CORSET_YES                           1
+
+
 #define CORSET_MOD_SINGLE                    0x0001
 
 
