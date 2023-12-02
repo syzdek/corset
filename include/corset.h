@@ -137,7 +137,7 @@ corset_prog_name(
 
 _CORSET_F void
 corset_debug_config(
-         corset_t *                    cnf,
+         corset_t *                    ch,
          FILE *                        fs );
 
 
