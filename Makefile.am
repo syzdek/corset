@@ -39,6 +39,9 @@ DIST_SUBDIRS				=
 # GNU make options
 V					= 0
 
+# directory locations
+moddir					= $(pkglibexecdir)/modules
+
 # Global flags
 AM_LIBS					=
 AM_LDFLAGS				=
@@ -85,6 +88,7 @@ bin_SCRIPTS				=
 pkgdata_DATA				=
 sbin_SCRIPTS				=
 sbin_PROGRAMS				=
+mod_LTLIBRARIES				= lib/mod_dummy.la
 EXTRA_PROGRAMS				= src/corsetd \
 					  src/corsetctl \
 					  src/corset-modinfo \
@@ -167,6 +171,21 @@ lib_libcorset_a_SOURCES			= $(noinst_HEADERS) \
 					  lib/libcorset/ldebug.h \
 					  lib/libcorset/lmemory.c \
 					  lib/libcorset/lmemory.h
+
+
+# macros for lib/mod_dummy.so
+lib_mod_dummy_la_DEPENDENCIES		= Makefile \
+					  config.h
+lib_mod_dummy_la_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/mod_dummy
+lib_mod_dummy_la_CFLAGS			= $(AM_CFLAGS)
+lib_mod_dummy_la_LDFLAGS		= -module \
+					  -avoid-version \
+					  -export-dynamic \
+					  -shared \
+					  $(AM_LDFLAGS)
+lib_mod_dummy_la_SOURCES		= $(noinst_HEADERS) \
+					  lib/mod_dummy/mod_dummy.c \
+					  lib/mod_dummy/mod_dummy.h
 
 
 # macros for src/corsetctl
