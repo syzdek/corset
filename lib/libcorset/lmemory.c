@@ -139,6 +139,18 @@ corset_get_param(
 {
    char *         str;
 
+   switch(option)
+   {
+      case CORSET_OPT_PROG_NAME:
+      if ((str = bindle_strdup(corset_prog_name_ptr)) == NULL)
+         return(-1);
+      *((char **)outvalue) = str;
+      return(0);
+
+      default:
+      break;
+   };
+
    assert(ch != NULL);
 
    switch(option)
@@ -215,6 +227,17 @@ corset_set_param(
          const void *                  invalue )
 {
    char *         str;
+
+   switch(option)
+   {
+      case CORSET_OPT_PROG_NAME:
+      invalue = ((invalue)) ? invalue : PACKAGE_NAME;
+      corset_prog_name(invalue);
+      return(0);
+
+      default:
+      break;
+   };
 
    assert(ch != NULL);
 

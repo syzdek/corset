@@ -61,6 +61,7 @@
 #define CORSET_OPT_VERBOSE          0x0105   // (int)
 #define CORSET_OPT_QUIET            0x0106   // (int)
 #define CORSET_OPT_FOREGROUND       0x0107   // (int)
+#define CORSET_OPT_PROG_NAME        0x0108   // (char *)
 
 
 // flags
