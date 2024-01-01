@@ -139,6 +139,8 @@ corset_get_param(
 {
    char *         str;
 
+   assert(ch != NULL);
+
    switch(option)
    {
       case CORSET_OPT_CONFFILE:
