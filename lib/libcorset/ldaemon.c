@@ -28,7 +28,7 @@
  *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  *  SUCH DAMAGE.
  */
-#define _LIB_LIBOTPUTIL_LCORE_C 1
+#define _LIB_LIBCORSET_LDAEMON_C 1
 #include "ldaemon.h"
 
 ///////////////
