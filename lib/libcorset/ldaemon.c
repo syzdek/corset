@@ -53,11 +53,11 @@
 // MARK: - Variables
 
 // MARK: corset_prog_name[]
-extern char corset_prog_name_str[];
-char corset_prog_name_str[128];
+extern char corset_prog_name_buff[];
+char corset_prog_name_buff[128];
 
 // MARK: corset_prog_name_ptr
-const char * corset_prog_name_ptr = "corset";
+const char * corset_prog_name_ptr = PACKAGE_NAME;
 
 
 /////////////////
@@ -79,10 +79,13 @@ corset_prog_name(
    if ((ptr = strrchr(str, '/')) == NULL)
       ptr = str;
    if (ptr[0] == '\0')
+   {
+      corset_prog_name_ptr = PACKAGE_NAME;
       return(corset_prog_name_ptr);
+   };
 
-   bindle_strlcpy(corset_prog_name_str, ptr, sizeof(corset_prog_name_str));
-   corset_prog_name_ptr = corset_prog_name_str;
+   bindle_strlcpy(corset_prog_name_buff, ptr, sizeof(corset_prog_name_buff));
+   corset_prog_name_ptr = corset_prog_name_buff;
 
    return(corset_prog_name_ptr);
 }
