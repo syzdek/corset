@@ -200,7 +200,7 @@ corset_get_param(
 
 
 corset_t *
-corset_init(
+corset_initialize(
          void )
 {
    corset_t *        ch;

@@ -115,7 +115,7 @@ main(
 
    // initialize library
    corset_prog_name(PROGRAM_NAME);
-   if ((ch = corset_init()) == NULL)
+   if ((ch = corset_initialize()) == NULL)
    {
       fprintf(stderr, "%s: out of virtual memory\n", PROGRAM_NAME);
       return(1);
