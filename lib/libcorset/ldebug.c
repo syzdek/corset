@@ -28,7 +28,7 @@
  *  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  *  SUCH DAMAGE.
  */
-#define _LIB_LIBOTPUTIL_LDEBUG_C 1
+#define _LIB_LIBCORSET_LDEBUG_C 1
 #include "ldebug.h"
 
 ///////////////
