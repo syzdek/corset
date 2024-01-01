@@ -170,7 +170,9 @@ lib_libcorset_a_SOURCES			= $(noinst_HEADERS) \
 					  lib/libcorset/ldebug.c \
 					  lib/libcorset/ldebug.h \
 					  lib/libcorset/lmemory.c \
-					  lib/libcorset/lmemory.h
+					  lib/libcorset/lmemory.h \
+					  lib/libcorset/lmodule.c \
+					  lib/libcorset/lmodule.h
 
 
 # macros for lib/mod_dummy.so
