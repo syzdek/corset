@@ -105,8 +105,7 @@ XFAIL_TESTS				=
 EXTRA_MANS				=
 EXTRA_DIST				= $(doc_DATA) \
 					  include/corset.h \
-					  include/corset_compat.h \
-					  lib/libcorset/libcorset.sym
+					  include/corset_compat.h
 CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
 					  config.h.in~ $(srcdir)/config.h.in~ \
