@@ -57,7 +57,8 @@
 /////////////////
 // MARK: - Variables
 
-extern const char * corset_prog_name_ptr;
+extern char *                 corset_prog_name_ptr;
+
 
 //////////////////
 //              //
