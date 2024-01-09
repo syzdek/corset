@@ -226,7 +226,6 @@ corset_set_param(
          int                           option,
          const void *                  invalue )
 {
-   char *         str;
    int            rc;
 
    switch(option)
@@ -246,48 +245,24 @@ corset_set_param(
    switch(option)
    {
       case CORSET_OPT_CONFFILE:
-      invalue = ((invalue)) ? invalue : CORSET_DFLT_CONFFILE;
-      if ((str = bindle_strdup(invalue)) == NULL)
-         return(-1);
-      if ((ch->cor_conffile))
-         free(ch->cor_conffile);
-      ch->cor_conffile = str;
-      return(0);
+      return(corset_strset(&ch->cor_conffile, invalue, CORSET_DFLT_CONFFILE));
 
       case CORSET_OPT_FOREGROUND:
       corset_set_param_flag(ch, CORSET_FLG_FOREGROUND, CORSET_DFLT_FOREGROUND, invalue);
       return(0);
 
       case CORSET_OPT_MODDIR:
-      invalue = ((invalue)) ? invalue : CORSET_DFLT_MODDIR;
-      if ((str = bindle_strdup(invalue)) == NULL)
-         return(-1);
-      if ((ch->cor_moddir))
-         free(ch->cor_moddir);
-      ch->cor_moddir = str;
-      return(0);
+      return(corset_strset(&ch->cor_moddir, invalue, CORSET_DFLT_MODDIR));
 
       case CORSET_OPT_PIDFILE:
-      invalue = ((invalue)) ? invalue : CORSET_DFLT_PIDFILE;
-      if ((str = bindle_strdup(invalue)) == NULL)
-         return(-1);
-      if ((ch->cor_pidfile))
-         free(ch->cor_pidfile);
-      ch->cor_pidfile = str;
-      return(0);
+      return(corset_strset(&ch->cor_pidfile, invalue, CORSET_DFLT_PIDFILE));
 
       case CORSET_OPT_QUIET:
       corset_set_param_flag(ch, CORSET_FLG_QUIET, CORSET_DFLT_QUIET, invalue);
       return(0);
 
       case CORSET_OPT_SOCKET:
-      invalue = ((invalue)) ? invalue : CORSET_DFLT_SOCKET;
-      if ((str = bindle_strdup(invalue)) == NULL)
-         return(-1);
-      if ((ch->cor_sockfile))
-         free(ch->cor_sockfile);
-      ch->cor_sockfile = str;
-      return(0);
+      return(corset_strset(&ch->cor_sockfile, invalue, CORSET_DFLT_SOCKET));
 
       case CORSET_OPT_VERBOSE:
       ch->cor_verbose = ((invalue)) ? *((const int *)invalue) : CORSET_DFLT_VERBOSE;
