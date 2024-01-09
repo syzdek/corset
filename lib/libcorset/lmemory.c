@@ -85,6 +85,12 @@ corset_defaults(
          corset_t *                    ch );
 
 
+static int
+corset_get_param_str(
+         const char *                  val,
+         char **                       outvalue );
+
+
 static void
 corset_set_param_flag(
          corset_t *                    ch,
@@ -137,15 +143,10 @@ corset_get_param(
          int                           option,
          void *                        outvalue )
 {
-   char *         str;
-
    switch(option)
    {
       case CORSET_OPT_PROG_NAME:
-      if ((str = bindle_strdup(corset_prog_name)) == NULL)
-         return(-1);
-      *((char **)outvalue) = str;
-      return(0);
+      return(corset_get_param_str(corset_prog_name, outvalue));
 
       default:
       break;
@@ -156,36 +157,24 @@ corset_get_param(
    switch(option)
    {
       case CORSET_OPT_CONFFILE:
-      if ((str = bindle_strdup(ch->cor_conffile)) == NULL)
-         return(-1);
-      *((char **)outvalue) = str;
-      return(0);
+      return(corset_get_param_str(ch->cor_conffile, outvalue));
 
       case CORSET_OPT_FOREGROUND:
       *((int *)outvalue) = ((ch->cor_flags & CORSET_FLG_FOREGROUND)) ? 1 : 0;
       return(0);
 
       case CORSET_OPT_MODDIR:
-      if ((str = bindle_strdup(ch->cor_moddir)) == NULL)
-         return(-1);
-      *((char **)outvalue) = str;
-      return(0);
+      return(corset_get_param_str(ch->cor_moddir, outvalue));
 
       case CORSET_OPT_PIDFILE:
-      if ((str = bindle_strdup(ch->cor_pidfile)) == NULL)
-         return(-1);
-      *((char **)outvalue) = str;
-      return(0);
+      return(corset_get_param_str(ch->cor_pidfile, outvalue));
 
       case CORSET_OPT_QUIET:
       *((int *)outvalue) = ((ch->cor_flags & CORSET_FLG_QUIET)) ? 1 : 0;
       return(0);
 
       case CORSET_OPT_SOCKET:
-      if ((str = bindle_strdup(ch->cor_sockfile)) == NULL)
-         return(-1);
-      *((char **)outvalue) = str;
-      return(0);
+      return(corset_get_param_str(ch->cor_sockfile, outvalue));
 
       case CORSET_OPT_VERBOSE:
       *((int *)outvalue) = ch->cor_verbose;
@@ -198,6 +187,22 @@ corset_get_param(
    return(0);
 }
 
+
+int
+corset_get_param_str(
+         const char *                  val,
+         char **                       outvalue )
+{
+   char * str;
+
+   str = NULL;
+   if ((val))
+      if ((str = bindle_strdup(val)) == NULL)
+         return(-1);
+   *outvalue = str;
+
+   return(0);
+}
 
 corset_t *
 corset_initialize(
