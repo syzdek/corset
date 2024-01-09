@@ -91,6 +91,16 @@ struct _corset
 };
 
 
+/////////////////
+//             //
+//  Variables  //
+//             //
+/////////////////
+// MARK: - Variables
+
+_CORSET_V const char *                 corset_prog_name;
+
+
 //////////////////
 //              //
 //  Prototypes  //
@@ -125,10 +135,6 @@ corset_usage_options(
 // daemon functions //
 //------------------//
 // MARK: daemon functions
-
-_CORSET_F const char *
-corset_prog_name(
-         const char *                  str );
 
 
 //-----------------//

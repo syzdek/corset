@@ -114,7 +114,7 @@ main(
    static const char *  short_opt = "fhL:qVv";
 
    // initialize library
-   corset_prog_name(PROGRAM_NAME);
+   corset_prog_name = PROGRAM_NAME;
    if ((ch = corset_initialize()) == NULL)
    {
       fprintf(stderr, "%s: out of virtual memory\n", PROGRAM_NAME);
@@ -139,7 +139,7 @@ void
 corset_usage(
          const char *                  short_opt )
 {
-   printf("Usage: %s [OPTIONS]\n", corset_prog_name(NULL));
+   printf("Usage: %s [OPTIONS]\n", corset_prog_name);
    corset_usage_options(short_opt);
    printf("\n");
    return;
