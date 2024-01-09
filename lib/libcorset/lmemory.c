@@ -324,4 +324,33 @@ corset_set_param_flag(
    return;
 }
 
+
+int
+corset_strset(
+         char **                       dstp,
+         const char *                  src,
+         const char *                  dflt )
+{
+   char * str;
+
+   assert(dstp != NULL);
+
+   if ((src = ((src)) ? src : dflt) == NULL)
+   {
+      if ((*dstp))
+         free(*dstp);
+      *dstp = NULL;
+      return(0);
+   };
+
+   if ((str = bindle_strdup(src)) == NULL)
+         return(-1);
+   if ((*dstp))
+      free(*dstp);
+   *dstp = str;
+
+   return(0);
+}
+
+
 /* end of source file */

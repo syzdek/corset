@@ -65,5 +65,11 @@
 //////////////////
 // MARK: - Prototypes
 
+int
+corset_strset(
+         char **                       dstp,
+         const char *                  src,
+         const char *                  dflt );
+
 
 #endif /* end of header file */
